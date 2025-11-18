@@ -1,0 +1,29 @@
+/* Ayu Dark Theme for Waybar */
+/* Based on Ayu Dark color palette - matches your Neovim theme */
+
+@define-color bg #0A0E14;
+@define-color bg_dark #01060E;
+@define-color bg_alt #0D1016;
+@define-color bg_highlight #161B22;
+
+@define-color fg #BFBDB6;
+@define-color fg_alt #707A8C;
+@define-color fg_dark #4D5566;
+
+@define-color blue #59C2FF;
+@define-color cyan #95E6CB;
+@define-color green #AAD94C;
+@define-color red #F07178;
+@define-color yellow #E6B673;
+@define-color magenta #D2A6FF;
+@define-color orange #FFB454;
+@define-color purple #DFBFFF;
+@define-color gray #4D5566;
+@define-color black #01060E;
+
+/* Semantic colors */
+@define-color accent @orange;
+@define-color warning @yellow;
+@define-color critical @red;
+@define-color success @green;
+@define-color info @blue;

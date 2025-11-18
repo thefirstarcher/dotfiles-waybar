@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# Waybar Applet Wrapper
+# Checks if commands are installed before executing them
+
+set -euo pipefail
+
+# Function to show notification
+notify_missing() {
+    local cmd="$1"
+    local package="${2:-$cmd}"
+
+    # Try to use mako notification if available
+    if command -v notify-send &>/dev/null; then
+        notify-send -u critical -t 5000 "Command Not Found" \
+            "The command '$cmd' is not installed.\nTry: paru -S $package"
+    fi
+
+    # Also show in terminal if we can
+    if command -v foot &>/dev/null; then
+        foot sh -c "echo -e '\n\033[1;31mError: Command \"$cmd\" not found\033[0m\n'; \
+                    echo -e 'Install with: \033[1;33mparu -S $package\033[0m\n'; \
+                    echo -e 'Press Enter to close...'; \
+                    read" &
+    fi
+}
+
+# Function to check and execute command
+check_and_run() {
+    local cmd="$1"
+    shift
+    local args=("$@")
+
+    # Extract the actual command to check (handle cases like "sh -c")
+    local check_cmd="$cmd"
+    if [[ "$cmd" == "sh" || "$cmd" == "bash" ]] && [[ "${args[0]:-}" == "-c" ]]; then
+        # Extract first command from shell command string
+        check_cmd=$(echo "${args[1]:-}" | grep -oP '^\s*\K[^;\s]+' || echo "$cmd")
+    fi
+
+    # Special handling for common commands that are always available
+    case "$check_cmd" in
+        sh|bash|echo|cat|grep|awk|sed|read|watch)
+            exec "$cmd" "${args[@]}"
+            ;;
+    esac
+
+    # Check if command exists
+    if ! command -v "$check_cmd" &>/dev/null; then
+        # Try to determine package name
+        local package="$check_cmd"
+
+        # Map common commands to their package names
+        case "$check_cmd" in
+            btop) package="btop" ;;
+            htop) package="htop" ;;
+            pulsemixer) package="pulsemixer" ;;
+            bluetoothctl) package="bluez-utils" ;;
+            nmtui) package="networkmanager" ;;
+            sensors) package="lm_sensors" ;;
+            upower) package="upower" ;;
+            paru) package="paru" ;;
+            df) package="coreutils" ;;
+            free) package="procps-ng" ;;
+            openvpn) package="openvpn" ;;
+        esac
+
+        notify_missing "$check_cmd" "$package"
+        exit 1
+    fi
+
+    # Command exists, execute it
+    exec "$cmd" "${args[@]}"
+}
+
+# Main execution
+if [[ $# -eq 0 ]]; then
+    echo "Usage: $0 <command> [args...]"
+    echo "This wrapper checks if commands are installed before executing them."
+    exit 1
+fi
+
+check_and_run "$@"

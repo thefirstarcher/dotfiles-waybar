@@ -1,0 +1,29 @@
+/* Tokyo Night Pro Theme for Waybar */
+/* Based on Tokyo Night color palette */
+
+@define-color bg #1a1b26;
+@define-color bg_dark #16161e;
+@define-color bg_alt #24283b;
+@define-color bg_highlight #292e42;
+
+@define-color fg #c0caf5;
+@define-color fg_alt #a9b1d6;
+@define-color fg_dark #787c99;
+
+@define-color blue #7aa2f7;
+@define-color cyan #7dcfcc;
+@define-color green #9ece6a;
+@define-color red #f7768e;
+@define-color yellow #e0af68;
+@define-color magenta #9d7cd8;
+@define-color orange #ff9e64;
+@define-color purple #bb9af7;
+@define-color gray #565f89;
+@define-color black #15161e;
+
+/* Semantic colors */
+@define-color accent @blue;
+@define-color warning @yellow;
+@define-color critical @red;
+@define-color success @green;
+@define-color info @cyan;

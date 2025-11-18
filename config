@@ -1,0 +1,478 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 26,
+  "spacing": 2,
+  "margin": "2 5 0 5",
+  "ipc": true,
+  "id": "main-bar",
+  "modules-left": [
+    "sway/workspaces",
+    "sway/mode",
+    "custom/workspace-info",
+    "sway/window"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "mpris",
+    "custom/separator",
+    "custom/theme",
+    "custom/clipboard",
+    "group/system",
+    "group/audio-visual",
+    "group/connectivity",
+    "group/hardware",
+    "group/status",
+    "sway/language",
+    "tray"
+  ],
+  "sway/workspaces": {
+    "disable-scroll": false,
+    "all-outputs": true,
+    "format": "{icon} {value}",
+    "format-icons": {
+      "1": "󰆍",
+      "2": "󰆍",
+      "3": "󰆍",
+      "4": "󰨞",
+      "5": "󰨞",
+      "6": "󰨞",
+      "7": "󰈹",
+      "8": "󰌪",
+      "9": "󰭹",
+      "10": "󰝰",
+      "urgent": "󰀨",
+      "focused": "󰄲",
+      "default": "󰄯"
+    },
+    "persistent-workspaces": {
+      "*": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "numeric-first": true
+  },
+  "sway/mode": {
+    "format": " {}",
+    "max-length": 50,
+    "tooltip": false
+  },
+  "sway/window": {
+    "format": "{}",
+    "max-length": 85,
+    "tooltip": true,
+    "tooltip-format": "{app_id}: {title}",
+    "rewrite": {
+      "(.*) - Mozilla Firefox": "󰈹 $1",
+      "(.*) - Firefox": "󰈹 $1",
+      "(.*) - Chromium": " $1",
+      "(.*) - Visual Studio Code": "󰨞 $1",
+      "(.*) - Code - OSS": "󰨞 $1",
+      "(.*) - Neovim": " $1",
+      "(.*) - foot": " $1",
+      "(.*) - zsh": " $1",
+      "(.*) - Alacritty": " $1",
+      "(.*) - Nautilus": "󰎄 $1",
+      "(.*) - Thunar": "󰎄 $1",
+      "ssh (.*)": " $1"
+    }
+  },
+  "sway/language": {
+    "format": " {}",
+    "min-length": 3,
+    "on-click": "swaymsg 'input type:keyboard xkb_switch_layout next'",
+    "tooltip-format": "Keyboard Layout: {long}"
+  },
+  "group/system": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/vpn",
+      "custom/updates"
+    ]
+  },
+  "group/audio-visual": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "pulseaudio",
+      "backlight"
+    ]
+  },
+  "group/connectivity": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "network",
+      "bluetooth",
+      "custom/netspeed"
+    ]
+  },
+  "group/hardware": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "cpu",
+      "custom/gpu",
+      "memory",
+      "temperature",
+      "disk"
+    ]
+  },
+  "group/status": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "battery",
+      "custom/uptime",
+      "idle_inhibitor",
+      "privacy"
+    ]
+  },
+  "cpu": {
+    "interval": 2,
+    "format": " {usage}%",
+    "format-alt": " {avg_frequency}GHz",
+    "states": {
+      "warning": 70,
+      "critical": 90
+    },
+    "on-click": "~/.config/waybar/waybar-applet foot -e btop",
+    "on-click-right": "~/.config/waybar/waybar-applet foot -e htop",
+    "tooltip-format": "CPU: {usage}% | Load: {load}"
+  },
+  "memory": {
+    "interval": 5,
+    "format": " {percentage}%",
+    "format-alt": " {used:0.1f}G",
+    "states": {
+      "warning": 70,
+      "critical": 90
+    },
+    "on-click": "~/.config/waybar/waybar-applet foot -e btop",
+    "on-click-right": "~/.config/waybar/waybar-applet foot sh -c \"watch -n 1 free -h\"",
+    "tooltip-format": "RAM: {used:0.1f}G/{total:0.1f}G | Swap: {swapUsed:0.1f}G/{swapTotal:0.1f}G"
+  },
+  "temperature": {
+    "thermal-zone": 2,
+    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "critical-threshold": 80,
+    "interval": 5,
+    "format": "{icon} {temperatureC}°",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "on-click": "~/.config/waybar/waybar-applet foot sh -c \"watch -n 1 sensors\"",
+    "tooltip-format": "Temp: {temperatureC}°C"
+  },
+  "disk": {
+    "interval": 60,
+    "format": "󰋊 {percentage_used}%",
+    "format-alt": "󰋊 {free}",
+    "path": "/",
+    "states": {
+      "warning": 70,
+      "critical": 90
+    },
+    "on-click": "~/.config/waybar/waybar-applet foot sh -c 'df -h; echo; echo Press\\ Enter\\ to\\ exit...; read'",
+    "tooltip-format": "{used}/{total} ({percentage_used}%) | {free} free"
+  },
+  "battery": {
+    "interval": 10,
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰚥 {capacity}%",
+    "format-full": "󰁹 {capacity}%",
+    "format-icons": [
+      "󰁺",
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰂂",
+      "󰁹"
+    ],
+    "tooltip-format": "{timeTo} | {power}W | {health}%",
+    "on-click": "~/.config/waybar/waybar-applet foot sh -c \"watch -n 1 upower -i /org/freedesktop/UPower/devices/battery_BAT1\"",
+    "on-click-right": "foot sh -c 'sudo gdgtui'"
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{icon} {percent}%",
+    "format-icons": [
+      "󰃞",
+      "󰃟",
+      "󰃠"
+    ],
+    "on-scroll-up": "brightnessctl set +5% -n 1",
+    "on-scroll-down": "brightnessctl set 5%- -n 1",
+    "smooth-scrolling-threshold": 1.0,
+    "tooltip-format": "Brightness: {percent}%"
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟 {volume}%",
+    "format-bluetooth": "{icon} 󰂯 {volume}%",
+    "format-bluetooth-muted": "󰝟 󰂯 {volume}%",
+    "format-source": " {volume}%",
+    "format-source-muted": " {volume}%",
+    "format-icons": {
+      "headphone": "󰋋",
+      "hands-free": "󰋎",
+      "headset": "󰋎",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "󰕿",
+        "󰖀",
+        "󰕾"
+      ]
+    },
+    "scroll-step": 5,
+    "on-click": "~/.config/waybar/waybar-applet foot -e pulsemixer",
+    "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+    "smooth-scrolling-threshold": 1.0,
+    "tooltip-format": "{desc} | {volume}%"
+  },
+  "bluetooth": {
+    "format": "󰂯",
+    "format-disabled": "󰂲",
+    "format-off": "󰂲",
+    "format-on": "󰂯",
+    "format-connected": "󰂱 {num_connections}",
+    "format-connected-battery": "󰂱 {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias} | {num_connections} connected",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias} | {device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias} | {device_battery_percentage}%",
+    "on-click": "~/.config/waybar/waybar-applet foot -e bluetoothctl",
+    "on-click-right": "rfkill toggle bluetooth"
+  },
+  "network": {
+    "interval": 3,
+    "format-wifi": "󰖩 {signalStrength}%",
+    "format-ethernet": "󰈀 {ipaddr}",
+    "format-linked": "󰈁 {ifname}",
+    "format-disconnected": "󰈂",
+    "format-alt": "{ipaddr}/{cidr}",
+    "tooltip-format": "{ifname} via {gwaddr}",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%) | {ipaddr}/{cidr} | ↓{bandwidthDownBytes} ↑{bandwidthUpBytes}",
+    "tooltip-format-ethernet": "{ifname} | {ipaddr}/{cidr} | ↓{bandwidthDownBytes} ↑{bandwidthUpBytes}",
+    "tooltip-format-disconnected": "Disconnected",
+    "on-click": "~/.config/waybar/waybar-applet foot -e nmtui",
+    "on-click-right": "~/.config/waybar/waybar-applet foot -e nmtui"
+  },
+  "mpris": {
+    "format": "{player_icon} {dynamic}",
+    "format-paused": "{status_icon} <i>{dynamic}</i>",
+    "format-stopped": "⏹ <span alpha='50%'>Stopped</span>",
+    "dynamic-order": [
+      "title",
+      "artist"
+    ],
+    "dynamic-len": 30,
+    "dynamic-separator": " · ",
+    "interval": 1,
+    "player-icons": {
+      "default": "󰝚",
+      "mpv": "󰦖",
+      "spotify": "",
+      "vlc": "󰕼",
+      "firefox": "󰈹",
+      "chromium": "",
+      "brave": "󰖟"
+    },
+    "status-icons": {
+      "playing": "",
+      "paused": "",
+      "stopped": "⏹"
+    },
+    "ignored-players": [
+      "firefox"
+    ],
+    "on-click": "playerctl play-pause",
+    "on-click-middle": "playerctl stop",
+    "on-click-right": "ncspot",
+    "on-scroll-up": "playerctl previous",
+    "on-scroll-down": "playerctl next",
+    "on-scroll-left": "playerctl position 5+",
+    "on-scroll-right": "playerctl position 5-",
+    "tooltip-format": "{player}: {title}\nArtist: {artist}\nAlbum: {album}\nPosition: {position}/{length}",
+    "max-length": 35,
+    "smooth-scrolling-threshold": 10.0
+  },
+  "clock": {
+    "interval": 1,
+    "format": "{:%H:%M:%S}",
+    "format-alt": "{:%a %d %b}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#7aa2f7'><b>{}</b></span>",
+        "days": "<span color='#c0caf5'><b>{}</b></span>",
+        "weeks": "<span color='#9ece6a'><b>W{}</b></span>",
+        "weekdays": "<span color='#e0af68'><b>{}</b></span>",
+        "today": "<span color='#f7768e'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰛊",
+      "deactivated": "󰾫"
+    },
+    "tooltip-format-activated": "Idle inhibitor: ON",
+    "tooltip-format-deactivated": "Idle inhibitor: OFF",
+    "timeout": 30.5
+  },
+  "privacy": {
+    "icon-spacing": 2,
+    "icon-size": 14,
+    "transition-duration": 250,
+    "modules": [
+      {
+        "type": "screenshare",
+        "tooltip": true,
+        "tooltip-icon-size": 16
+      },
+      {
+        "type": "audio-in",
+        "tooltip": true,
+        "tooltip-icon-size": 16
+      }
+    ]
+  },
+  "custom/vpn": {
+    "format": "{}",
+    "exec": "pgrep -x openvpn || pgrep -x openfortivpn > /dev/null && echo '󰖂 VPN' || echo '󰖂'",
+    "interval": 5,
+    "on-click": "~/.config/waybar/waybar-applet foot -e nmtui",
+    "tooltip": true,
+    "tooltip-format": "Click to manage VPN connections"
+  },
+  "custom/updates": {
+    "format": "󰚰 {}",
+    "interval": 3600,
+    "exec": "pacman -Qu 2>/dev/null | wc -l",
+    "exec-if": "exit 0",
+    "on-click": "~/.config/waybar/waybar-applet foot -e sh -c \"paru -Syu\"",
+    "signal": 8,
+    "tooltip": true,
+    "tooltip-format": "{} updates available"
+  },
+  "tray": {
+    "icon-size": 16,
+    "spacing": 5,
+    "show-passive-items": true
+  },
+  "custom/separator": {
+    "format": "|",
+    "tooltip": false
+  },
+  "custom/netspeed": {
+    "format": "󰓅 {icon}",
+    "format-icons": [
+      "󰞀",
+      "󰞀"
+    ],
+    "exec": "~/.config/waybar/scripts/netspeed.sh",
+    "return-type": "json",
+    "interval": 2,
+    "tooltip": true,
+    "on-click": "~/.config/waybar/waybar-applet foot -e bmon"
+  },
+  "custom/gpu": {
+    "format": "󰢮 {}",
+    "exec": "~/.config/waybar/scripts/gpu.sh",
+    "return-type": "json",
+    "interval": 3,
+    "tooltip": true,
+    "on-click": "~/.config/waybar/waybar-applet foot sh -c \"watch -n 1 nvidia-smi || radeontop -d - -t 1 -l 1 || intel_gpu_top\""
+  },
+  "custom/uptime": {
+    "format": "󰔟 {}",
+    "exec": "uptime -p | sed 's/up //g' | sed 's/ hours*/h/g' | sed 's/ minutes*/m/g' | sed 's/ hour/h/g' | sed 's/ minute/m/g' | sed 's/,//g'",
+    "interval": 60,
+    "tooltip-format": "System uptime",
+    "on-click": "~/.config/waybar/waybar-applet foot sh -c 'echo System Uptime:; uptime -s; echo; uptime -p; echo; echo Press\\ Enter\\ to\\ exit...; read'"
+  },
+  "custom/workspace-info": {
+    "format": "{}",
+    "exec": "~/.config/waybar/scripts/workspace-info.sh",
+    "return-type": "json",
+    "interval": 1,
+    "signal": 8,
+    "tooltip": true,
+    "on-click": "swaymsg workspace back_and_forth"
+  },
+  "custom/clipboard": {
+    "format": "{}",
+    "exec": "~/.config/waybar/scripts/smart-clipboard.sh",
+    "return-type": "json",
+    "interval": 2,
+    "tooltip": true,
+    "on-click": "cliphist list | fuzzel -d | cliphist decode | wl-copy",
+    "on-click-right": "cliphist wipe && notify-send 'Clipboard' 'History cleared'"
+  },
+  "custom/theme": {
+    "format": "󰏘",
+    "tooltip": true,
+    "tooltip-format": "Theme: {}",
+    "exec": "~/.config/waybar/scripts/theme-switcher.sh current | sed 's/-/ /g; s/\\b\\(.\\)/\\u\\1/g'",
+    "interval": 60,
+    "on-click": "~/.config/waybar/scripts/theme-switcher.sh menu",
+    "on-click-right": "~/.config/waybar/scripts/theme-switcher.sh cycle",
+    "on-scroll-up": "~/.config/waybar/scripts/theme-switcher.sh cycle",
+    "on-scroll-down": "~/.config/waybar/scripts/theme-switcher.sh cycle"
+  }
+}
