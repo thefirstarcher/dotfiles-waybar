@@ -46,11 +46,24 @@ switch_theme() {
     # Update waybar theme symlink
     ln -sf "${theme}.css" "$THEME_DIR/active.css"
 
+    # Save current wallpaper before any reloads
+    current_wallpaper_file="$HOME/.config/sway/current-wallpaper"
+    current_wallpaper=""
+    if [ -f "$current_wallpaper_file" ]; then
+        current_wallpaper=$(cat "$current_wallpaper_file")
+    fi
+
     # Update sway theme symlink if sway themes exist
     if [ -d "$SWAY_THEME_DIR" ] && [ -f "$SWAY_THEME_DIR/${theme}" ]; then
         ln -sf "${theme}" "$SWAY_THEME_DIR/active"
         # Reload sway config
         swaymsg reload >/dev/null 2>&1
+
+        # Restore wallpaper after reload (reload clears it)
+        if [ -n "$current_wallpaper" ] && [ -f "$current_wallpaper" ]; then
+            sleep 0.1  # Small delay to let sway finish reloading
+            swaymsg output "*" bg "$current_wallpaper" fill >/dev/null 2>&1
+        fi
     fi
 
     # Update terminal theme symlinks
@@ -66,8 +79,23 @@ switch_theme() {
         ln -sf "${theme}.ini" "$HOME/.config/foot/themes/active.ini"
     fi
 
-    # Change wallpaper for theme
+    # Try to change wallpaper for theme (optional, preserves current if theme has no wallpapers)
     "$WAYBAR_DIR/scripts/wallpaper-manager.sh" set-for-theme "$theme" >/dev/null 2>&1
+
+    # Restore wallpaper if it was cleared (theme has no specific wallpapers)
+    if [ -n "$current_wallpaper" ] && [ -f "$current_wallpaper" ]; then
+        # Check if wallpaper was actually changed
+        new_wallpaper=""
+        if [ -f "$current_wallpaper_file" ]; then
+            new_wallpaper=$(cat "$current_wallpaper_file")
+        fi
+
+        # If wallpaper file is now empty or doesn't exist, restore previous
+        if [ -z "$new_wallpaper" ] || [ ! -f "$new_wallpaper" ]; then
+            echo "$current_wallpaper" > "$current_wallpaper_file"
+            swaymsg output "*" bg "$current_wallpaper" fill >/dev/null 2>&1
+        fi
+    fi
 
     # Restart waybar to apply new theme
     pkill waybar
