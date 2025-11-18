@@ -1,0 +1,9 @@
+[package]
+name = "vpn-manager"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+common = { path = "../common" }
+anyhow.workspace = true

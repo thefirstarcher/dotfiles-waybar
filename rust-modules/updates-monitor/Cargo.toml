@@ -1,0 +1,12 @@
+[package]
+name = "updates-monitor"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+common = { path = "../common" }
+
+[[bin]]
+name = "updates-monitor"
+path = "src/main.rs"

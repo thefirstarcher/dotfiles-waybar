@@ -1,0 +1,11 @@
+[package]
+name = "mpris-control"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+common = { path = "../common" }
+serde_json = { workspace = true }
+zbus = { workspace = true }
+tokio = { workspace = true }
+anyhow = { workspace = true }

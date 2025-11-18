@@ -1,0 +1,13 @@
+[package]
+name = "weather-fetch"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+common = { path = "../common" }
+tokio = { workspace = true, features = ["macros", "rt"] }
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+reqwest.workspace = true

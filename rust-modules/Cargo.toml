@@ -1,0 +1,58 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "common",
+    "waybar-daemon",
+    "sys-monitor",
+    "gpu-monitor",
+    "netspeed",
+    "net-quality",
+    "audio-viz",
+    "mpris-control",
+    "privacy-monitor",
+    "bluetooth-mgr",
+    "app-volume-mixer",
+    "weather-fetch",
+    "vpn-manager",
+    "updates-monitor",
+    "clipboard-mgr", "theme-switcher",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Waybar Refactor"]
+
+[workspace.dependencies]
+# Shared dependencies
+tokio = { version = "1.35", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+thiserror = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+chrono = "0.4"
+
+# System monitoring
+sysinfo = "0.30"
+procfs = "0.16"
+
+# Network
+reqwest = { version = "0.11", features = ["json"] }
+socket2 = "0.5"
+
+# IPC and communication
+dbus = "0.9"
+zbus = { version = "3.15", features = ["tokio"] }
+swayipc = "3.0"
+
+# Caching
+cached = "0.46"
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
+strip = true

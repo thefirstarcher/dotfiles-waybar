@@ -1,0 +1,13 @@
+[package]
+name = "sys-monitor"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+common = { path = "../common" }
+nix = { version = "0.29", features = ["fs"] }
+
+[[bin]]
+name = "sys-monitor"
+path = "src/main.rs"

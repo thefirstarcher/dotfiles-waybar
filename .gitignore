@@ -1,0 +1,34 @@
+# Build output
+/target/
+/build/
+
+# Rust build artifacts
+rust-modules/target/
+**/target/
+Cargo.lock
+
+# Task runner cache
+.task/
+
+# Backup files
+*.backup
+*.backup-*
+config.backup-*
+style.css.backup-*
+
+# Temporary files
+*.tmp
+*.swp
+*~
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# Binary symlinks (if any)
+/bin

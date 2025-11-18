@@ -1,0 +1,155 @@
+version: "3"
+
+vars:
+  RUST_DIR: rust-modules
+  TARGET_DIR: "{{.RUST_DIR}}/target/release"
+  CONFIG_SRC: config-src
+  STYLES_SRC: styles
+  BUILD_DIR: target
+  INSTALL_DIR: ~/.config/waybar
+
+tasks:
+  default:
+    desc: Build everything (Rust + configs + styles)
+    cmds:
+      - task: build-rust
+      - task: build-config
+      - task: build-styles
+      - echo "✓ All builds complete. Output in {{.BUILD_DIR}}/"
+
+  build-rust:
+    desc: Compile all Rust binaries in release mode
+    dir: "{{.RUST_DIR}}"
+    cmds:
+      - echo "Building Rust workspace..."
+      - cargo build --release
+      - echo "✓ Rust binaries built in {{.TARGET_DIR}}"
+    sources:
+      - "**/*.rs"
+      - "**/Cargo.toml"
+    generates:
+      - "{{.TARGET_DIR}}/sys-monitor"
+      - "{{.TARGET_DIR}}/netspeed"
+      - "{{.TARGET_DIR}}/gpu-monitor"
+      - "{{.TARGET_DIR}}/mpris-control"
+      - "{{.TARGET_DIR}}/privacy-monitor"
+      - "{{.TARGET_DIR}}/weather-fetch"
+      - "{{.TARGET_DIR}}/net-quality"
+      - "{{.TARGET_DIR}}/vpn-manager"
+      - "{{.TARGET_DIR}}/bluetooth-mgr"
+      - "{{.TARGET_DIR}}/clipboard-mgr"
+      - "{{.TARGET_DIR}}/updates-monitor"
+      - "{{.TARGET_DIR}}/audio-viz"
+      - "{{.TARGET_DIR}}/app-volume-mixer"
+      - "{{.TARGET_DIR}}/theme-switcher"
+      - "{{.TARGET_DIR}}/waybar-daemon"
+
+  build-config:
+    desc: Merge modular JSON configs into single Waybar config
+    cmds:
+      - echo "Building config..."
+      - task: merge-config
+      - task: validate-config
+
+  merge-config:
+    desc: Merge JSON module files
+    cmds:
+      - mkdir -p {{.BUILD_DIR}}
+      - ./scripts/merge-configs.sh {{.BUILD_DIR}}/config
+    sources:
+      - "{{.CONFIG_SRC}}/**/*.json"
+    generates:
+      - "{{.BUILD_DIR}}/config"
+
+  validate-config:
+    desc: Validate generated config
+    cmds:
+      - echo "Validating config..."
+      - |
+        if [ -f {{.BUILD_DIR}}/config ]; then
+          if command -v jq &> /dev/null; then
+            jq empty {{.BUILD_DIR}}/config && echo "✓ Config is valid JSON"
+          else
+            echo "⚠ jq not found, skipping validation"
+          fi
+        fi
+
+  build-styles:
+    desc: Compile SCSS/CSS to style.css
+    cmds:
+      - echo "Building styles..."
+      - mkdir -p {{.BUILD_DIR}}
+      - |
+        if command -v sass &> /dev/null; then
+          sass {{.STYLES_SRC}}/main.css {{.BUILD_DIR}}/style.css --no-source-map
+          echo "✓ Styles compiled with sass"
+        else
+          cp {{.STYLES_SRC}}/main.css {{.BUILD_DIR}}/style.css
+          echo "✓ Styles copied (sass not available)"
+        fi
+    sources:
+      - "{{.STYLES_SRC}}/**/*.scss"
+      - "{{.STYLES_SRC}}/**/*.css"
+    generates:
+      - "{{.BUILD_DIR}}/style.css"
+
+  install:
+    desc: Install all built files to ~/.config/waybar
+    cmds:
+      - task: default
+      - echo "Installing to {{.INSTALL_DIR}}..."
+      - ./deploy.sh
+      - echo "✓ Installation complete"
+
+  deploy:
+    desc: Deploy built files (alias for install)
+    cmds:
+      - task: install
+
+  clean:
+    desc: Clean all build artifacts
+    cmds:
+      - rm -rf {{.BUILD_DIR}}
+      - cd {{.RUST_DIR}} && cargo clean
+      - echo "✓ Cleaned all build artifacts"
+
+  dev:
+    desc: Build and test a specific module
+    cmds:
+      - echo "Usage - task dev-module MODULE=sys-monitor"
+
+  dev-module:
+    desc: Build and test a specific Rust module
+    dir: "{{.RUST_DIR}}"
+    cmds:
+      - cargo build --release -p {{.MODULE}}
+      - echo "✓ Built {{.MODULE}}"
+      - "{{.TARGET_DIR}}/{{.MODULE}}"
+
+  test:
+    desc: Test all monitoring binaries
+    cmds:
+      - task: build-rust
+      - echo "Testing binaries..."
+      - "{{.TARGET_DIR}}/sys-monitor all || true"
+      - "{{.TARGET_DIR}}/netspeed || true"
+      - "{{.TARGET_DIR}}/gpu-monitor || true"
+      - echo "✓ Tests complete"
+
+  check:
+    desc: Check Rust code without building
+    dir: "{{.RUST_DIR}}"
+    cmds:
+      - cargo check --workspace
+
+  fmt:
+    desc: Format Rust code
+    dir: "{{.RUST_DIR}}"
+    cmds:
+      - cargo fmt --all
+
+  clippy:
+    desc: Run clippy lints
+    dir: "{{.RUST_DIR}}"
+    cmds:
+      - cargo clippy --workspace --all-targets

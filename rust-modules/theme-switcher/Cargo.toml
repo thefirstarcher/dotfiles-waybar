@@ -1,0 +1,12 @@
+[package]
+name = "theme-switcher"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+common = { path = "../common" }
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+notify-rust = "4.10"

@@ -1,0 +1,136 @@
+{
+    "// Configuration": "Enhanced Waybar Configuration with Theming Support",
+    "// ============================================================": "",
+    "// Layout Configuration": "",
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 4,
+
+    "// ============================================================": "",
+    "// Module Layout": "",
+    "// Left: Window management and media controls": "",
+    "modules-left": [
+        "sway/workspaces",
+        "sway/mode",
+        "custom/mpris"
+    ],
+
+    "// Center: Time and weather": "",
+    "modules-center": [
+        "clock",
+        "custom/weather"
+    ],
+
+    "// Right: System monitoring and controls": "",
+    "modules-right": [
+        "custom/theme-switcher",
+        "custom/privacy",
+        "custom/clipboard",
+        "custom/netspeed",
+        "custom/net-quality",
+        "custom/system-monitor",
+        "custom/gpu-monitor",
+        "custom/vpn",
+        "custom/bluetooth",
+        "custom/updates",
+        "network",
+        "pulseaudio",
+        "battery",
+        "tray"
+    ],
+
+    "// ============================================================": "",
+    "// Sway Workspace Configuration": "",
+    "sway/workspaces": {
+        "disable-scroll": false,
+        "all-outputs": true,
+        "format": "{name}",
+        "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        }
+    },
+
+    "sway/mode": {
+        "format": "<span style=\"italic\"> {}</span>",
+        "tooltip": false
+    },
+
+    "// ============================================================": "",
+    "// Clock & Weather": "",
+    "clock": {
+        "interval": 60,
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": " {:%H:%M}",
+        "format-alt": " {:%A, %B %d, %Y}",
+        "on-click-right": "gnome-calendar"
+    },
+    "// ============================================================": "",
+    "// Network Configuration": "",
+    "network": {
+        "interval": 5,
+        "format-wifi": " {essid} ({signalStrength}%)",
+        "format-ethernet": " {ipaddr}/{cidr}",
+        "format-linked": " {ifname} (No IP)",
+        "format-disconnected": "⚠ Disconnected",
+        "tooltip-format": "{ifname} via {gwaddr}\n{ipaddr}/{cidr}\nSignal: {signalStrength}%\nFrequency: {frequency}MHz",
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "nm-connection-editor"
+    },
+
+    "// ============================================================": "",
+    "// Audio Configuration": "",
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": " Muted",
+        "format-bluetooth": " {icon} {volume}%",
+        "format-bluetooth-muted": "  Muted",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "scroll-step": 5,
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "tooltip-format": "{desc}\nVolume: {volume}%"
+    },
+
+    "// ============================================================": "",
+    "// Battery Configuration": "",
+    "battery": {
+        "interval": 30,
+        "states": {
+            "good": 80,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-full": " {capacity}%",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format": "{timeTo}\nCapacity: {capacity}%\nPower: {power}W",
+        "on-scroll-up": "",
+        "on-scroll-down": ""
+    },
+
+    "// ============================================================": "",
+    "// System Tray": "",
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10,
+        "show-passive-items": true
+    }
+}

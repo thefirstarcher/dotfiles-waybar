@@ -1,0 +1,396 @@
+/* ==========================================================
+   Waybar Enhanced Configuration - Theme-aware
+   ========================================================== */
+
+@import 'themes/active.css';
+
+/* ==========================================================
+   Base Styles
+   ========================================================== */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", monospace;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: @bg;
+    color: @fg;
+    transition: background 0.3s ease;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    margin: 0 4px;
+}
+
+.modules-left > *,
+.modules-right > * {
+    margin: 0 2px;
+}
+
+/* ==========================================================
+   Workspaces
+   ========================================================== */
+#workspaces button {
+    padding: 0 10px;
+    background: transparent;
+    color: @fg_alt;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+#workspaces button:hover {
+    background: @bg_highlight;
+    color: @blue;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+    background: @bg_highlight;
+    color: @accent;
+    font-weight: bold;
+}
+
+#workspaces button.urgent {
+    background: @bg_highlight;
+    color: @critical;
+    animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* ==========================================================
+   Module Base Styles
+   ========================================================== */
+#clock,
+#battery,
+#network,
+#pulseaudio,
+#tray,
+#custom-system-monitor,
+#custom-gpu-monitor,
+#custom-mpris,
+#custom-privacy,
+#custom-weather,
+#custom-bluetooth,
+#custom-vpn,
+#custom-clipboard,
+#custom-netspeed,
+#custom-net-quality,
+#custom-updates,
+#custom-theme-switcher,
+#mode {
+    padding: 0 12px;
+    background: @bg_alt;
+    margin: 3px 2px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    color: @fg;
+}
+
+#custom-mpris:hover,
+#custom-bluetooth:hover,
+#custom-vpn:hover,
+#custom-clipboard:hover,
+#custom-updates:hover,
+#custom-theme-switcher:hover,
+#pulseaudio:hover,
+#network:hover {
+    background: @bg_highlight;
+}
+
+/* ==========================================================
+   Specific Module Styling
+   ========================================================== */
+
+/* Clock */
+#clock {
+    color: @magenta;
+    font-weight: bold;
+}
+
+/* Battery */
+#battery {
+    color: @fg;
+}
+
+#battery.good {
+    color: @success;
+}
+
+#battery.charging {
+    color: @success;
+}
+
+#battery.warning:not(.charging) {
+    color: @warning;
+}
+
+#battery.critical:not(.charging) {
+    color: @critical;
+    animation: blink 1s linear infinite;
+}
+
+/* System Monitor */
+#custom-system-monitor {
+    color: @cyan;
+}
+
+#custom-system-monitor.warning {
+    color: @warning;
+}
+
+#custom-system-monitor.critical {
+    color: @critical;
+    font-weight: bold;
+}
+
+/* GPU Monitor */
+#custom-gpu-monitor {
+    color: @purple;
+}
+
+#custom-gpu-monitor.idle {
+    color: @fg_alt;
+}
+
+#custom-gpu-monitor.active {
+    color: @yellow;
+}
+
+#custom-gpu-monitor.high {
+    color: @critical;
+    font-weight: bold;
+}
+
+/* MPRIS Media Controls */
+#custom-mpris {
+    color: @magenta;
+    min-width: 200px;
+}
+
+#custom-mpris.playing {
+    color: @success;
+}
+
+#custom-mpris.paused {
+    color: @warning;
+}
+
+#custom-mpris.stopped,
+#custom-mpris.idle {
+    color: @fg_dark;
+}
+
+/* Privacy Monitor */
+#custom-privacy {
+    color: @fg_dark;
+}
+
+#custom-privacy.idle {
+    color: @fg_dark;
+}
+
+#custom-privacy.active,
+#custom-privacy.mic-active,
+#custom-privacy.camera-active {
+    color: @critical;
+    font-weight: bold;
+}
+
+#custom-privacy.screen-active {
+    color: @orange;
+}
+
+/* Network Speed */
+#custom-netspeed {
+    color: @cyan;
+}
+
+#custom-netspeed.high {
+    color: @success;
+    font-weight: bold;
+}
+
+#custom-netspeed.medium {
+    color: @warning;
+}
+
+/* Updates */
+#custom-updates {
+    color: @blue;
+}
+
+#custom-updates.updates-available {
+    color: @warning;
+}
+
+#custom-updates.warning {
+    color: @orange;
+}
+
+#custom-updates.critical {
+    color: @critical;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Network */
+#network {
+    color: @cyan;
+}
+
+#network.disconnected {
+    color: @critical;
+}
+
+#network.linked {
+    color: @warning;
+}
+
+/* Audio */
+#pulseaudio {
+    color: @purple;
+}
+
+#pulseaudio.muted {
+    color: @gray;
+}
+
+/* Tray */
+#tray {
+    background: transparent;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+/* Mode */
+#mode {
+    background: @bg_highlight;
+    color: @critical;
+    font-weight: bold;
+}
+
+/* Weather */
+#custom-weather {
+    color: @cyan;
+}
+
+#custom-weather.clear {
+    color: @yellow;
+}
+
+#custom-weather.cloudy {
+    color: @fg_alt;
+}
+
+#custom-weather.rain {
+    color: @blue;
+}
+
+#custom-weather.snow {
+    color: @fg;
+}
+
+/* Bluetooth */
+#custom-bluetooth {
+    color: @blue;
+}
+
+#custom-bluetooth.connected {
+    color: @success;
+}
+
+#custom-bluetooth.disconnected {
+    color: @gray;
+}
+
+#custom-bluetooth.disabled {
+    color: @fg_dark;
+}
+
+/* VPN */
+#custom-vpn {
+    color: @magenta;
+}
+
+#custom-vpn.connected {
+    color: @success;
+    font-weight: bold;
+}
+
+#custom-vpn.disconnected {
+    color: @gray;
+}
+
+#custom-vpn.connecting {
+    color: @warning;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Clipboard */
+#custom-clipboard {
+    color: @purple;
+}
+
+#custom-clipboard.has-content {
+    color: @success;
+}
+
+#custom-clipboard.empty {
+    color: @gray;
+}
+
+/* Network Quality */
+#custom-net-quality {
+    color: @cyan;
+}
+
+#custom-net-quality.excellent {
+    color: @success;
+}
+
+#custom-net-quality.good {
+    color: @cyan;
+}
+
+#custom-net-quality.fair {
+    color: @warning;
+}
+
+#custom-net-quality.poor {
+    color: @orange;
+}
+
+#custom-net-quality.bad {
+    color: @critical;
+}
+
+/* Theme Switcher */
+#custom-theme-switcher {
+    color: @accent;
+    font-size: 16px;
+}
+
+#custom-theme-switcher:hover {
+    font-weight: bold;
+}
