@@ -242,7 +242,7 @@ fn main() -> Result<()> {
             let display_name = get_theme_display_name(&theme);
 
             WaybarOutput::builder()
-                .text(format!("{}", icon))
+                .text(icon.to_string())
                 .tooltip(format!(
                     "Theme: {}\n\nClick: Menu\nRight-click: Cycle",
                     display_name
@@ -260,7 +260,7 @@ fn main() -> Result<()> {
             let icon = get_theme_icon(next);
             let display_name = get_theme_display_name(next);
             WaybarOutput::builder()
-                .text(format!("{}", icon))
+                .text(icon.to_string())
                 .tooltip(format!("Theme: {}", display_name))
                 .class("theme-switcher")
                 .build()

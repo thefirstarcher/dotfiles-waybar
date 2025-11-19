@@ -7,7 +7,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BUILD_DIR="$SCRIPT_DIR/target"
 RUST_TARGET="$SCRIPT_DIR/rust-modules/target/release"
 INSTALL_DIR="$HOME/.config/waybar"
-BIN_DIR="$INSTALL_DIR/bin"
 
 # Colors for output
 RED='\033[0;31m'
@@ -25,23 +24,20 @@ if [ ! -f "$BUILD_DIR/config" ]; then
     exit 1
 fi
 
-# Create bin directory
-mkdir -p "$BIN_DIR"
-
-# Install binaries from Rust target
-echo -e "${YELLOW}→${NC} Installing Rust binaries..."
-BINS_INSTALLED=0
+# Verify binaries exist in target directory
+echo -e "${YELLOW}→${NC} Verifying Rust binaries..."
+BINS_FOUND=0
 for bin in sys-monitor netspeed updates-monitor gpu-monitor mpris-control \
            privacy-monitor weather-fetch bluetooth-mgr vpn-manager \
            clipboard-mgr net-quality app-volume-mixer audio-viz \
-           waybar-daemon theme-switcher; do
+           theme-switcher thermal-monitor process-monitor disk-monitor \
+           power-manager; do
     if [ -f "$RUST_TARGET/$bin" ]; then
-        cp "$RUST_TARGET/$bin" "$BIN_DIR/"
-        chmod +x "$BIN_DIR/$bin"
-        BINS_INSTALLED=$((BINS_INSTALLED + 1))
+        BINS_FOUND=$((BINS_FOUND + 1))
     fi
 done
-echo -e "${GREEN}✓${NC} Installed $BINS_INSTALLED binaries to $BIN_DIR"
+echo -e "${GREEN}✓${NC} Found $BINS_FOUND binaries in $RUST_TARGET"
+echo -e "${BLUE}ℹ${NC}  Binaries will be used directly from rust-modules/target/release/"
 
 # Backup existing config if it exists
 if [ -f "$INSTALL_DIR/config" ] && [ ! -L "$INSTALL_DIR/config" ]; then
@@ -86,5 +82,6 @@ fi
 echo ""
 echo -e "${GREEN}✅ Deployment complete!${NC}"
 echo ""
-echo -e "${BLUE}Installed to:${NC} $INSTALL_DIR"
-echo -e "${BLUE}Binaries at:${NC} $BIN_DIR"
+echo -e "${BLUE}Config installed to:${NC} $INSTALL_DIR/config"
+echo -e "${BLUE}Styles installed to:${NC} $INSTALL_DIR/style.css"
+echo -e "${BLUE}Binaries located at:${NC} $RUST_TARGET"

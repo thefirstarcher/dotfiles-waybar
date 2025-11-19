@@ -3,20 +3,31 @@ resolver = "2"
 
 members = [
     "common",
-    "waybar-daemon",
+    # Core System Monitoring
     "sys-monitor",
     "gpu-monitor",
     "netspeed",
+    "thermal-monitor",
+    "process-monitor",
+    "disk-monitor",
+    "power-manager",
+
+    # Network & Connectivity
     "net-quality",
+    "vpn-manager",
+    "bluetooth-mgr",
+
+    # Media & Audio
     "audio-viz",
     "mpris-control",
-    "privacy-monitor",
-    "bluetooth-mgr",
     "app-volume-mixer",
+
+    # Utilities
+    "privacy-monitor",
     "weather-fetch",
-    "vpn-manager",
     "updates-monitor",
-    "clipboard-mgr", "theme-switcher",
+    "clipboard-mgr",
+    "theme-switcher",
 ]
 
 [workspace.package]

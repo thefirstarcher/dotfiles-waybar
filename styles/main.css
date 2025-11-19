@@ -68,6 +68,41 @@ window#waybar {
 }
 
 /* ==========================================================
+   Module Groups
+   ========================================================== */
+.modules-right > widget > box > *:not(:last-child) {
+    margin-right: 4px;
+}
+
+.modules-right > widget > box > group {
+    padding: 0;
+    margin: 3px 2px;
+}
+
+/* Group drawer styling */
+.modules-right group > box {
+    background: @bg_alt;
+    border-radius: 6px;
+    padding: 0;
+}
+
+.modules-right group > box > widget {
+    padding: 0 12px;
+}
+
+.modules-right group > box > widget:first-child {
+    border-radius: 6px 0 0 6px;
+}
+
+.modules-right group > box > widget:last-child {
+    border-radius: 0 6px 6px 0;
+}
+
+.modules-right group > box > widget:only-child {
+    border-radius: 6px;
+}
+
+/* ==========================================================
    Module Base Styles
    ========================================================== */
 #clock,
@@ -75,18 +110,19 @@ window#waybar {
 #network,
 #pulseaudio,
 #tray,
-#custom-system-monitor,
-#custom-gpu-monitor,
+#custom-system,
+#custom-gpu,
+#custom-network,
+#custom-hardware,
 #custom-mpris,
-#custom-privacy,
 #custom-weather,
-#custom-bluetooth,
-#custom-vpn,
 #custom-clipboard,
-#custom-netspeed,
-#custom-net-quality,
 #custom-updates,
 #custom-theme-switcher,
+#custom-brightness,
+#custom-audio-viz,
+#custom-app-volume,
+#custom-separator,
 #mode {
     padding: 0 12px;
     background: @bg_alt;
@@ -96,12 +132,25 @@ window#waybar {
     color: @fg;
 }
 
+/* Separator styling */
+#custom-separator {
+    background: transparent;
+    color: @fg_dark;
+    padding: 0 6px;
+    margin: 0;
+}
+
+#custom-system:hover,
+#custom-gpu:hover,
+#custom-network:hover,
+#custom-hardware:hover,
 #custom-mpris:hover,
-#custom-bluetooth:hover,
-#custom-vpn:hover,
 #custom-clipboard:hover,
 #custom-updates:hover,
 #custom-theme-switcher:hover,
+#custom-brightness:hover,
+#custom-audio-viz:hover,
+#custom-app-volume:hover,
 #pulseaudio:hover,
 #network:hover {
     background: @bg_highlight;
@@ -139,36 +188,90 @@ window#waybar {
     animation: blink 1s linear infinite;
 }
 
-/* System Monitor */
-#custom-system-monitor {
+/* ========== MERGED MODULES ========== */
+
+/* System Monitor (CPU + RAM + Thermal + Disk + Processes) */
+#custom-system {
+    color: @cyan;
+    font-weight: 500;
+}
+
+#custom-system.normal {
     color: @cyan;
 }
 
-#custom-system-monitor.warning {
+#custom-system.warning {
     color: @warning;
+    font-weight: bold;
 }
 
-#custom-system-monitor.critical {
+#custom-system.critical {
     color: @critical;
     font-weight: bold;
+    animation: pulse 2s ease-in-out infinite;
 }
 
 /* GPU Monitor */
-#custom-gpu-monitor {
+#custom-gpu {
     color: @purple;
 }
 
-#custom-gpu-monitor.idle {
+#custom-gpu.idle {
     color: @fg_alt;
 }
 
-#custom-gpu-monitor.active {
+#custom-gpu.active {
     color: @yellow;
 }
 
-#custom-gpu-monitor.high {
+#custom-gpu.high {
     color: @critical;
     font-weight: bold;
+}
+
+/* Network Monitor (Speed + Quality + VPN) */
+#custom-network {
+    color: @cyan;
+}
+
+#custom-network.low {
+    color: @fg_alt;
+}
+
+#custom-network.medium {
+    color: @warning;
+}
+
+#custom-network.high {
+    color: @success;
+    font-weight: bold;
+}
+
+#custom-network.error {
+    color: @critical;
+}
+
+/* Hardware/Peripherals (Bluetooth + Privacy) */
+#custom-hardware {
+    color: @blue;
+}
+
+#custom-hardware.disabled {
+    color: @fg_dark;
+}
+
+#custom-hardware.disconnected {
+    color: @gray;
+}
+
+#custom-hardware.connected {
+    color: @success;
+}
+
+#custom-hardware.privacy-active {
+    color: @critical;
+    font-weight: bold;
+    animation: pulse 2s ease-in-out infinite;
 }
 
 /* MPRIS Media Controls */
@@ -190,24 +293,52 @@ window#waybar {
     color: @fg_dark;
 }
 
-/* Privacy Monitor */
-#custom-privacy {
-    color: @fg_dark;
+/* Brightness Control */
+#custom-brightness {
+    color: @yellow;
 }
 
-#custom-privacy.idle {
-    color: @fg_dark;
+#custom-brightness.high {
+    color: @yellow;
 }
 
-#custom-privacy.active,
-#custom-privacy.mic-active,
-#custom-privacy.camera-active {
-    color: @critical;
-    font-weight: bold;
-}
-
-#custom-privacy.screen-active {
+#custom-brightness.medium {
     color: @orange;
+}
+
+#custom-brightness.low {
+    color: @fg_alt;
+}
+
+#custom-brightness.very-low {
+    color: @fg_dark;
+}
+
+/* Audio Visualizer */
+#custom-audio-viz {
+    color: @purple;
+    font-family: monospace;
+}
+
+#custom-audio-viz.active {
+    color: @success;
+}
+
+#custom-audio-viz.idle {
+    color: @fg_dark;
+}
+
+/* App Volume Mixer */
+#custom-app-volume {
+    color: @purple;
+}
+
+#custom-app-volume.muted {
+    color: @gray;
+}
+
+#custom-app-volume.high {
+    color: @critical;
 }
 
 /* Network Speed */
@@ -393,4 +524,110 @@ window#waybar {
 
 #custom-theme-switcher:hover {
     font-weight: bold;
+}
+/* ==========================================================
+   Phase 1 Module Styling
+   ========================================================== */
+
+/* Thermal Monitor */
+#custom-thermal {
+    color: @orange;
+}
+
+#custom-thermal.normal {
+    color: @cyan;
+}
+
+#custom-thermal.warning {
+    color: @warning;
+}
+
+#custom-thermal.critical {
+    color: @critical;
+    font-weight: bold;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Process Monitor */
+#custom-processes {
+    color: @purple;
+}
+
+#custom-processes.normal {
+    color: @cyan;
+}
+
+#custom-processes.warning {
+    color: @warning;
+}
+
+#custom-processes.critical {
+    color: @critical;
+    font-weight: bold;
+}
+
+/* Disk Monitor */
+#custom-disk {
+    color: @blue;
+}
+
+#custom-disk.normal {
+    color: @cyan;
+}
+
+#custom-disk.warning {
+    color: @warning;
+}
+
+#custom-disk.critical {
+    color: @critical;
+    font-weight: bold;
+}
+
+/* Power Manager */
+#custom-power {
+    color: @yellow;
+}
+
+#custom-power.charging {
+    color: @success;
+}
+
+#custom-power.battery {
+    color: @cyan;
+}
+
+#custom-power.warning {
+    color: @warning;
+}
+
+#custom-power.critical {
+    color: @critical;
+    animation: blink 1s linear infinite;
+}
+
+/* Network Quality Enhanced */
+#custom-net-quality-enhanced {
+    color: @cyan;
+}
+
+#custom-net-quality-enhanced.excellent {
+    color: @success;
+    font-weight: bold;
+}
+
+#custom-net-quality-enhanced.good {
+    color: @cyan;
+}
+
+#custom-net-quality-enhanced.fair {
+    color: @warning;
+}
+
+#custom-net-quality-enhanced.poor {
+    color: @orange;
+}
+
+#custom-net-quality-enhanced.bad {
+    color: @critical;
 }

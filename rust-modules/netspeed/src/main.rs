@@ -11,11 +11,11 @@ fn main() {
     let up_mbps = up_bps / 1_000_000.0;
 
     let text = if down_mbps >= 1.0 || up_mbps >= 1.0 {
-        format!(" {:.1}↓ {:.1}↑", down_mbps, up_mbps)
+        format!(" {:>4.1}↓ {:>4.1}↑", down_mbps, up_mbps)
     } else {
         let down_kbps = down_bps / 1_000.0;
         let up_kbps = up_bps / 1_000.0;
-        format!(" {:.0}K↓ {:.0}K↑", down_kbps, up_kbps)
+        format!(" {:>4.0}K↓ {:>4.0}K↑", down_kbps, up_kbps)
     };
 
     let tooltip = format!(

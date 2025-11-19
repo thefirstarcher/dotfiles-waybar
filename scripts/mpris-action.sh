@@ -24,8 +24,26 @@ case "$ACTION" in
     stop)
         playerctl -p "$PLAYER" stop
         ;;
+    volume-up)
+        playerctl -p "$PLAYER" volume 0.05+
+        ;;
+    volume-down)
+        playerctl -p "$PLAYER" volume 0.05-
+        ;;
+    seek-forward)
+        playerctl -p "$PLAYER" position 10+
+        ;;
+    seek-backward)
+        playerctl -p "$PLAYER" position 10-
+        ;;
+    seek-forward-short)
+        playerctl -p "$PLAYER" position 5+
+        ;;
+    seek-backward-short)
+        playerctl -p "$PLAYER" position 5-
+        ;;
     *)
-        echo "Usage: $0 {play-pause|next|prev|stop}"
+        echo "Usage: $0 {play-pause|next|prev|stop|volume-up|volume-down|seek-forward|seek-backward}"
         exit 1
         ;;
 esac

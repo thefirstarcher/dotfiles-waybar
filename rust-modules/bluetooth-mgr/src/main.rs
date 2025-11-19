@@ -18,10 +18,9 @@ fn get_connected_devices() -> Vec<String> {
         .args(["devices", "Connected"])
         .output()
         .ok()
-        .and_then(|output| {
+        .map(|output| {
             let stdout = String::from_utf8_lossy(&output.stdout);
-            Some(
-                stdout
+            stdout
                     .lines()
                     .filter(|line| line.contains("Device"))
                     .map(|line| {
@@ -31,7 +30,6 @@ fn get_connected_devices() -> Vec<String> {
                             .join(" ")
                     })
                     .collect()
-            )
         })
         .unwrap_or_default()
 }
@@ -51,12 +49,9 @@ fn main() -> Result<()> {
     let args: Vec<String> = env::args().collect();
     let command = args.get(1).map(|s| s.as_str()).unwrap_or("status");
 
-    match command {
-        "toggle" => {
-            toggle_bluetooth()?;
-            std::thread::sleep(std::time::Duration::from_millis(500));
-        }
-        "status" | _ => {}
+    if command == "toggle" {
+        toggle_bluetooth()?;
+        std::thread::sleep(std::time::Duration::from_millis(500));
     }
 
     let enabled = is_bluetooth_enabled();

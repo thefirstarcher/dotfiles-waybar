@@ -75,20 +75,13 @@ tasks:
         fi
 
   build-styles:
-    desc: Compile SCSS/CSS to style.css
+    desc: Copy GTK CSS styles (Waybar uses GTK CSS, not SASS)
     cmds:
       - echo "Building styles..."
       - mkdir -p {{.BUILD_DIR}}
-      - |
-        if command -v sass &> /dev/null; then
-          sass {{.STYLES_SRC}}/main.css {{.BUILD_DIR}}/style.css --no-source-map
-          echo "✓ Styles compiled with sass"
-        else
-          cp {{.STYLES_SRC}}/main.css {{.BUILD_DIR}}/style.css
-          echo "✓ Styles copied (sass not available)"
-        fi
+      - cp {{.STYLES_SRC}}/main.css {{.BUILD_DIR}}/style.css
+      - echo "✓ Styles copied (GTK CSS format)"
     sources:
-      - "{{.STYLES_SRC}}/**/*.scss"
       - "{{.STYLES_SRC}}/**/*.css"
     generates:
       - "{{.BUILD_DIR}}/style.css"
@@ -153,3 +146,8 @@ tasks:
     dir: "{{.RUST_DIR}}"
     cmds:
       - cargo clippy --workspace --all-targets
+
+  watch:
+    desc: Watch for changes and auto-rebuild
+    cmds:
+      - ./scripts/watch-mode.sh

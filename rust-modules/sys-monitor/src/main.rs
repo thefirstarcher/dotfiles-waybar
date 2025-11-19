@@ -154,7 +154,7 @@ fn read_memory_info() -> MemoryInfo {
 
     for line in meminfo.lines() {
         if let Some((key, value)) = line.split_once(':') {
-            let value = value.trim().split_whitespace().next()
+            let value = value.split_whitespace().next()
                 .and_then(|s| s.parse::<u64>().ok())
                 .unwrap_or(0);
             info.insert(key.to_string(), value);
@@ -250,7 +250,7 @@ fn print_cpu() {
     let cpu_usage = read_cpu_usage();
 
     let output = WaybarOutput::builder()
-        .text(format!(" {:.0}%", cpu_usage))
+        .text(format!(" {:>3.0}%", cpu_usage))
         .tooltip(format!("CPU Usage: {:.1}%", cpu_usage))
         .percentage(cpu_usage as u32)
         .class(if cpu_usage > 80.0 { "critical" } else if cpu_usage > 60.0 { "warning" } else { "normal" })
@@ -272,7 +272,7 @@ fn print_cpu_detailed() {
         })
         .collect();
 
-    let text = format!(" {:.0}%", overall);
+    let text = format!(" {:>3.0}%", overall);
     let tooltip = format!("CPU: {:.1}%\n\n{}", overall, core_bars.join("\n"));
 
     let output = WaybarOutput::builder()
@@ -292,7 +292,7 @@ fn print_memory() {
     let percent = mem.usage_percent() as u32;
 
     let output = WaybarOutput::builder()
-        .text(format!(" {:.1}GB", used_gb))
+        .text(format!(" {:>4.1}GB", used_gb))
         .tooltip(format!("Memory: {:.1}GB / {:.1}GB ({:.0}%)", used_gb, total_gb, percent))
         .percentage(percent)
         .class(if percent > 90 { "critical" } else if percent > 75 { "warning" } else { "normal" })
@@ -328,7 +328,7 @@ fn print_memory_detailed() {
     );
 
     let output = WaybarOutput::builder()
-        .text(format!(" {:.1}GB", used))
+        .text(format!(" {:>4.1}GB", used))
         .tooltip(tooltip)
         .percentage(percent)
         .class(if percent > 90 { "critical" } else if percent > 75 { "warning" } else { "normal" })
@@ -342,7 +342,7 @@ fn print_disk() {
         let percent = disk.usage_percent();
 
         let output = WaybarOutput::builder()
-            .text(format!(" {:.0}%", percent))
+            .text(format!(" {:>3.0}%", percent))
             .tooltip(format!("Disk /: {:.1}GB / {:.1}GB ({:.0}% used)",
                 disk.used_gb(), disk.total_gb(), percent))
             .percentage(percent)
@@ -373,7 +373,7 @@ fn print_disk_all() {
         .join("\n");
 
     let output = WaybarOutput::builder()
-        .text(format!(" {:.0}%", max_percent))
+        .text(format!(" {:>3.0}%", max_percent))
         .tooltip(format!("Disks:\n{}", tooltip))
         .percentage(max_percent)
         .class(if max_percent > 90 { "critical" } else if max_percent > 80 { "warning" } else { "normal" })
@@ -389,7 +389,7 @@ fn print_all() {
     let total_mem = mem.total as f64 / 1024.0 / 1024.0;
     let mem_percent = mem.usage_percent();
 
-    let text = format!(" {:.0}%  {:.1}GB", cpu_usage, used_mem);
+    let text = format!(" {:>3.0}%  {:>4.1}GB", cpu_usage, used_mem);
     let tooltip = format!(
         "CPU: {:.1}%\nMemory: {:.1}GB / {:.1}GB ({:.0}%)",
         cpu_usage, used_mem, total_mem, mem_percent
@@ -419,7 +419,7 @@ fn print_detailed() {
     let disks = read_all_disks();
     let disk_max = disks.iter().map(|d| d.usage_percent()).max().unwrap_or(0);
 
-    let text = format!(" {:.0}%  {:.1}GB  {:.0}%", cpu_overall, used_mem, disk_max);
+    let text = format!(" {:>3.0}%  {:>4.1}GB  {:>3.0}%", cpu_overall, used_mem, disk_max);
 
     let cpu_bars: Vec<String> = cores.iter().take(8) // First 8 cores
         .map(|(i, usage)| format!("C{}: {:.0}%", i, usage))

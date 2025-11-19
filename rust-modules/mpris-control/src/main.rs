@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use std::collections::HashMap;
 use waybar_common::WaybarOutput;
-use zbus::{Connection, fdo::DBusProxy, zvariant::{OwnedValue, Value}};
+use zbus::{Connection, fdo::DBusProxy, zvariant::OwnedValue};
 
 fn escape_markup(text: &str) -> String {
     text.replace('&', "&amp;")

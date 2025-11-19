@@ -67,7 +67,7 @@ fn main() {
             };
             
             WaybarOutput::builder()
-                .text(format!(" {}%", utilization))
+                .text(format!(" {:>3}%", utilization))
                 .tooltip(format!(
                     "{}\nFrequency: {} MHz / {} MHz\nUtilization: ~{}%",
                     info.name, info.cur_freq, info.max_freq, utilization

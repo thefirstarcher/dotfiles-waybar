@@ -1,133 +1,9 @@
 {
-  "// Configuration": "Enhanced Waybar Configuration with Theming Support",
   "// ============================================================": "",
-  "// Layout Configuration": "",
-  "layer": "top",
-  "position": "top",
-  "height": 30,
-  "spacing": 4,
-  "// Module Layout": "",
-  "// Left: Window management and media controls": "",
-  "modules-left": [
-    "sway/workspaces",
-    "sway/mode",
-    "custom/mpris"
-  ],
-  "// Center: Time and weather": "",
-  "modules-center": [
-    "clock",
-    "custom/weather"
-  ],
-  "// Right: System monitoring and controls": "",
-  "modules-right": [
-    "custom/theme-switcher",
-    "custom/system",
-    "custom/gpu",
-    "custom/network",
-    "custom/hardware",
-    "custom/brightness",
-    "custom/clipboard",
-    "custom/updates",
-    "custom/audio-viz",
-    "custom/app-volume",
-    "pulseaudio",
-    "battery",
-    "tray"
-  ],
-  "// Sway Workspace Configuration": "",
-  "sway/workspaces": {
-    "disable-scroll": false,
-    "all-outputs": true,
-    "format": "{value}",
-    "format-icons": {
-      "1": "",
-      "2": "",
-      "3": "",
-      "4": "",
-      "5": "",
-      "urgent": "",
-      "focused": "",
-      "default": ""
-    }
-  },
-  "sway/mode": {
-    "format": "<span style=\"italic\"> {}</span>",
-    "tooltip": false
-  },
-  "// Clock & Weather": "",
-  "clock": {
-    "interval": 60,
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "format": " {:%H:%M}",
-    "format-alt": " {:%A, %B %d, %Y}",
-    "on-click-right": "gnome-calendar"
-  },
-  "// Network Configuration": "",
-  "network": {
-    "interval": 5,
-    "format-wifi": " {essid} ({signalStrength}%)",
-    "format-ethernet": " {ipaddr}/{cidr}",
-    "format-linked": " {ifname} (No IP)",
-    "format-disconnected": "⚠ Disconnected",
-    "tooltip-format": "{ifname} via {gwaddr}\n{ipaddr}/{cidr}\nSignal: {signalStrength}%\nFrequency: {frequency}MHz",
-    "tooltip-format-disconnected": "Disconnected",
-    "on-click": "nm-connection-editor"
-  },
-  "// Audio Configuration": "",
-  "pulseaudio": {
-    "format": "{icon} {volume}%",
-    "format-muted": " Muted",
-    "format-bluetooth": " {icon} {volume}%",
-    "format-bluetooth-muted": "  Muted",
-    "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
-      "default": [
-        "",
-        "",
-        ""
-      ]
-    },
-    "scroll-step": 5,
-    "on-click": "pavucontrol",
-    "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-    "tooltip-format": "{desc}\nVolume: {volume}%"
-  },
-  "// Battery Configuration": "",
-  "battery": {
-    "interval": 30,
-    "states": {
-      "good": 80,
-      "warning": 30,
-      "critical": 15
-    },
-    "format": "{icon} {capacity}%",
-    "format-charging": " {capacity}%",
-    "format-plugged": " {capacity}%",
-    "format-full": " {capacity}%",
-    "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      ""
-    ],
-    "tooltip-format": "{timeTo}\nCapacity: {capacity}%\nPower: {power}W",
-    "on-scroll-up": "",
-    "on-scroll-down": ""
-  },
-  "// System Tray": "",
-  "tray": {
-    "icon-size": 18,
-    "spacing": 10,
-    "show-passive-items": true
-  },
   "// ALL WAYBAR CUSTOM MODULES - ENHANCED & CONSOLIDATED": "",
   "// Rich interactions + TUI programs + Proper theming": "",
+  "// ============================================================": "",
+
   "// Theme Switcher": "",
   "// Click: Cycle themes | Right-click: Open theme menu | Scroll: Quick cycle": "",
   "custom/theme-switcher": {
@@ -141,6 +17,8 @@
     "on-scroll-up": "/home/first/.config/waybar/bin/theme-switcher next",
     "on-scroll-down": "/home/first/.config/waybar/bin/theme-switcher prev"
   },
+
+  "// ============================================================": "",
   "// MERGED: System Monitor (CPU + RAM + Thermal + Disk + Processes)": "",
   "// Shows: CPU%, Memory, Disk% + Temps, Top processes": "",
   "// Click: htop | Right-click: btop | Scroll: Change view mode": "",
@@ -156,6 +34,7 @@
     "on-scroll-up": "/home/first/.config/waybar/scripts/system-wrapper.sh cycle-up",
     "on-scroll-down": "/home/first/.config/waybar/scripts/system-wrapper.sh cycle-down"
   },
+
   "// GPU Monitor": "",
   "// Click: nvtop | Right-click: Toggle GPU stats | Scroll: Cycle display modes": "",
   "custom/gpu": {
@@ -169,6 +48,8 @@
     "on-scroll-up": "/home/first/.config/waybar/bin/gpu-monitor freq",
     "on-scroll-down": "/home/first/.config/waybar/bin/gpu-monitor util"
   },
+
+  "// ============================================================": "",
   "// MERGED: Network Monitor (Speed + Quality + VPN)": "",
   "// Shows: Bandwidth + Latency + VPN status": "",
   "// Click: nmtui | Right-click: Network stats | Scroll: Toggle compact/detailed": "",
@@ -184,6 +65,8 @@
     "on-scroll-up": "/home/first/.config/waybar/scripts/network-wrapper.sh detailed",
     "on-scroll-down": "/home/first/.config/waybar/scripts/network-wrapper.sh compact"
   },
+
+  "// ============================================================": "",
   "// MERGED: Hardware/Peripherals (Bluetooth + Privacy)": "",
   "// Shows: Bluetooth devices + Privacy indicators (mic/cam/screen)": "",
   "// Click: Toggle Bluetooth | Right-click: Bluetooth manager | Scroll: Quick toggle": "",
@@ -198,6 +81,8 @@
     "on-scroll-up": "/home/first/.config/waybar/bin/bluetooth-mgr on",
     "on-scroll-down": "/home/first/.config/waybar/bin/bluetooth-mgr off"
   },
+
+  "// ============================================================": "",
   "// Brightness Control": "",
   "// Scroll: Adjust brightness | Click: Open settings": "",
   "custom/brightness": {
@@ -209,6 +94,8 @@
     "on-scroll-up": "/home/first/.config/waybar/scripts/brightness-wrapper.sh up",
     "on-scroll-down": "/home/first/.config/waybar/scripts/brightness-wrapper.sh down"
   },
+
+  "// ============================================================": "",
   "// Updates Monitor": "",
   "// Click: Run updates | Right-click: Check for updates | Middle: View changelog": "",
   "custom/updates": {
@@ -222,6 +109,8 @@
     "on-click-middle": "kitty -e sh -c 'pacman -Qe | less'",
     "signal": 8
   },
+
+  "// ============================================================": "",
   "// Media Player (MPRIS) Controls - ENHANCED": "",
   "// Click: Play/Pause | Right-click: Next | Middle: Previous": "",
   "// Scroll Up: Volume+ | Scroll Down: Volume-": "",
@@ -242,6 +131,8 @@
     "escape": true,
     "signal": 8
   },
+
+  "// ============================================================": "",
   "// Weather": "",
   "// Click: Open wttr.in | Right-click: Refresh | Scroll: Toggle forecast": "",
   "custom/weather": {
@@ -256,6 +147,8 @@
     "on-scroll-down": "/home/first/.config/waybar/bin/weather-fetch compact",
     "signal": 9
   },
+
+  "// ============================================================": "",
   "// Clipboard Manager": "",
   "// Click: Show History | Right-click: Clear | Middle: Pin current": "",
   "// Scroll: Navigate history": "",
@@ -271,6 +164,8 @@
     "on-scroll-up": "/home/first/.config/waybar/bin/clipboard-mgr prev",
     "on-scroll-down": "/home/first/.config/waybar/bin/clipboard-mgr next"
   },
+
+  "// ============================================================": "",
   "// Audio Visualizer - ENHANCED": "",
   "// Click: Change mode | Right-click: pavucontrol | Scroll: Adjust sensitivity": "",
   "custom/audio-viz": {
@@ -285,6 +180,8 @@
     "on-scroll-up": "/home/first/.config/waybar/scripts/audio-viz-mode.sh sensitivity-up",
     "on-scroll-down": "/home/first/.config/waybar/scripts/audio-viz-mode.sh sensitivity-down"
   },
+
+  "// ============================================================": "",
   "// Per-App Volume Mixer - ENHANCED": "",
   "// Click: pulsemixer | Right-click: List apps | Scroll: Adjust focused app volume": "",
   "custom/app-volume": {

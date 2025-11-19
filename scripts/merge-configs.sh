@@ -31,16 +31,12 @@ fi
 
 BASE=$(cat "$CONFIG_DIR/base.json")
 
-# Merge system modules if they exist
-if [ -f "$CONFIG_DIR/modules/system.json" ]; then
-    SYSTEM_MODULES=$(cat "$CONFIG_DIR/modules/system.json")
-    BASE=$(echo "$BASE" | jq --argjson modules "$SYSTEM_MODULES" '. + $modules')
-fi
-
-# Merge extended modules if they exist
-if [ -f "$CONFIG_DIR/modules/extended.json" ]; then
-    EXTENDED_MODULES=$(cat "$CONFIG_DIR/modules/extended.json")
-    BASE=$(echo "$BASE" | jq --argjson modules "$EXTENDED_MODULES" '. + $modules')
+# Merge all modules from single consolidated file
+if [ -f "$CONFIG_DIR/modules.json" ]; then
+    MODULES=$(cat "$CONFIG_DIR/modules.json")
+    BASE=$(echo "$BASE" | jq --argjson modules "$MODULES" '. + $modules')
+else
+    echo "Warning: modules.json not found, using base config only"
 fi
 
 # Write final config

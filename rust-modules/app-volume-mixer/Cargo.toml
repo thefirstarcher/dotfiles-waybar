@@ -5,3 +5,8 @@ edition.workspace = true
 authors.workspace = true
 
 [dependencies]
+common = { path = "../common" }
+libpulse-binding = "2.28"
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
