@@ -184,7 +184,8 @@
     "on-click": "/home/first/.config/waybar/bin/theme-switcher cycle",
     "on-click-right": "/home/first/.config/waybar/bin/theme-switcher menu",
     "on-scroll-up": "/home/first/.config/waybar/bin/theme-switcher next",
-    "on-scroll-down": "/home/first/.config/waybar/bin/theme-switcher prev"
+    "on-scroll-down": "/home/first/.config/waybar/bin/theme-switcher prev",
+    "smooth-scrolling-threshold": 10.0
   },
   "// MERGED: System Monitor (CPU + RAM + Thermal + Disk + Processes)": "",
   "// Shows: CPU%, Memory, Disk% + Temps, Top processes": "",
@@ -200,6 +201,7 @@
     "on-click-middle": "kitty -e nvtop",
     "on-scroll-up": "/home/first/.config/waybar/scripts/system-wrapper.sh cycle-up",
     "on-scroll-down": "/home/first/.config/waybar/scripts/system-wrapper.sh cycle-down",
+    "smooth-scrolling-threshold": 10.0,
     "signal": 11
   },
   "// GPU Monitor": "",
@@ -213,7 +215,8 @@
     "on-click": "kitty -e nvtop",
     "on-click-right": "kitty -e radeontop",
     "on-scroll-up": "/home/first/.config/waybar/bin/gpu-monitor freq",
-    "on-scroll-down": "/home/first/.config/waybar/bin/gpu-monitor util"
+    "on-scroll-down": "/home/first/.config/waybar/bin/gpu-monitor util",
+    "smooth-scrolling-threshold": 10.0
   },
   "// MERGED: Network Monitor (Speed + Quality + VPN)": "",
   "// Shows: Bandwidth + Latency + VPN status": "",
@@ -229,6 +232,7 @@
     "on-click-middle": "kitty -e iftop",
     "on-scroll-up": "/home/first/.config/waybar/scripts/network-wrapper.sh detailed",
     "on-scroll-down": "/home/first/.config/waybar/scripts/network-wrapper.sh compact",
+    "smooth-scrolling-threshold": 10.0,
     "signal": 12
   },
   "// MERGED: Hardware/Peripherals (Bluetooth + Privacy)": "",
@@ -244,6 +248,7 @@
     "on-click-right": "kitty -e bluetoothctl",
     "on-scroll-up": "/home/first/.config/waybar/bin/bluetooth-mgr on",
     "on-scroll-down": "/home/first/.config/waybar/bin/bluetooth-mgr off",
+    "smooth-scrolling-threshold": 10.0,
     "signal": 13
   },
   "// Brightness Control": "",
@@ -265,7 +270,7 @@
     "return-type": "json",
     "interval": 3600,
     "tooltip": true,
-    "format": "{}",
+    "format": "?{}",
     "on-click": "kitty -e sudo pacman -Syu",
     "on-click-right": "kitty -e sh -c 'checkupdates && read -p \"Press enter to continue\"'",
     "on-click-middle": "kitty -e sh -c 'pacman -Qe | less'",
@@ -289,6 +294,7 @@
     "on-scroll-up": "/home/first/.config/waybar/scripts/mpris-action.sh volume-up",
     "on-scroll-down": "/home/first/.config/waybar/scripts/mpris-action.sh volume-down",
     "escape": true,
+    "smooth-scrolling-threshold": 10.0,
     "signal": 8
   },
   "// Weather": "",
@@ -303,6 +309,7 @@
     "on-click-right": "/home/first/.config/waybar/bin/weather-fetch refresh",
     "on-scroll-up": "/home/first/.config/waybar/bin/weather-fetch detailed",
     "on-scroll-down": "/home/first/.config/waybar/bin/weather-fetch compact",
+    "smooth-scrolling-threshold": 10.0,
     "signal": 9
   },
   "// Clipboard Manager": "",
@@ -318,7 +325,8 @@
     "on-click-right": "/home/first/.config/waybar/bin/clipboard-mgr clear",
     "on-click-middle": "/home/first/.config/waybar/bin/clipboard-mgr pin",
     "on-scroll-up": "/home/first/.config/waybar/bin/clipboard-mgr prev",
-    "on-scroll-down": "/home/first/.config/waybar/bin/clipboard-mgr next"
+    "on-scroll-down": "/home/first/.config/waybar/bin/clipboard-mgr next",
+    "smooth-scrolling-threshold": 10.0
   },
   "// Audio Visualizer - ENHANCED": "",
   "// Click: Change mode | Right-click: pavucontrol | Scroll: Adjust sensitivity": "",
@@ -332,7 +340,8 @@
     "on-click-right": "kitty -e pulsemixer",
     "on-scroll-up": "/home/first/.config/waybar/scripts/audio-viz-mode.sh sensitivity-up",
     "on-scroll-down": "/home/first/.config/waybar/scripts/audio-viz-mode.sh sensitivity-down",
-    "signal": 10
+    "signal": 10,
+    "smooth-scrolling-threshold": 1.0
   },
   "// Per-App Volume Mixer - ENHANCED": "",
   "// Click: pulsemixer | Right-click: List apps | Scroll: Adjust focused app volume": "",
