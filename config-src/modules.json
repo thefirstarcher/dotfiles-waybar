@@ -3,7 +3,6 @@
   "// ALL WAYBAR CUSTOM MODULES - ENHANCED & CONSOLIDATED": "",
   "// Rich interactions + TUI programs + Proper theming": "",
   "// ============================================================": "",
-
   "// Theme Switcher": "",
   "// Click: Cycle themes | Right-click: Open theme menu | Scroll: Quick cycle": "",
   "custom/theme-switcher": {
@@ -17,7 +16,6 @@
     "on-scroll-up": "/home/first/.config/waybar/bin/theme-switcher next",
     "on-scroll-down": "/home/first/.config/waybar/bin/theme-switcher prev"
   },
-
   "// ============================================================": "",
   "// MERGED: System Monitor (CPU + RAM + Thermal + Disk + Processes)": "",
   "// Shows: CPU%, Memory, Disk% + Temps, Top processes": "",
@@ -32,9 +30,9 @@
     "on-click-right": "kitty -e btop",
     "on-click-middle": "kitty -e nvtop",
     "on-scroll-up": "/home/first/.config/waybar/scripts/system-wrapper.sh cycle-up",
-    "on-scroll-down": "/home/first/.config/waybar/scripts/system-wrapper.sh cycle-down"
+    "on-scroll-down": "/home/first/.config/waybar/scripts/system-wrapper.sh cycle-down",
+    "signal": 11
   },
-
   "// GPU Monitor": "",
   "// Click: nvtop | Right-click: Toggle GPU stats | Scroll: Cycle display modes": "",
   "custom/gpu": {
@@ -48,7 +46,6 @@
     "on-scroll-up": "/home/first/.config/waybar/bin/gpu-monitor freq",
     "on-scroll-down": "/home/first/.config/waybar/bin/gpu-monitor util"
   },
-
   "// ============================================================": "",
   "// MERGED: Network Monitor (Speed + Quality + VPN)": "",
   "// Shows: Bandwidth + Latency + VPN status": "",
@@ -63,9 +60,9 @@
     "on-click-right": "kitty -e bmon",
     "on-click-middle": "kitty -e iftop",
     "on-scroll-up": "/home/first/.config/waybar/scripts/network-wrapper.sh detailed",
-    "on-scroll-down": "/home/first/.config/waybar/scripts/network-wrapper.sh compact"
+    "on-scroll-down": "/home/first/.config/waybar/scripts/network-wrapper.sh compact",
+    "signal": 12
   },
-
   "// ============================================================": "",
   "// MERGED: Hardware/Peripherals (Bluetooth + Privacy)": "",
   "// Shows: Bluetooth devices + Privacy indicators (mic/cam/screen)": "",
@@ -79,9 +76,9 @@
     "on-click": "/home/first/.config/waybar/bin/bluetooth-mgr toggle",
     "on-click-right": "kitty -e bluetoothctl",
     "on-scroll-up": "/home/first/.config/waybar/bin/bluetooth-mgr on",
-    "on-scroll-down": "/home/first/.config/waybar/bin/bluetooth-mgr off"
+    "on-scroll-down": "/home/first/.config/waybar/bin/bluetooth-mgr off",
+    "signal": 13
   },
-
   "// ============================================================": "",
   "// Brightness Control": "",
   "// Scroll: Adjust brightness | Click: Open settings": "",
@@ -92,9 +89,9 @@
     "tooltip": true,
     "format": "{}",
     "on-scroll-up": "/home/first/.config/waybar/scripts/brightness-wrapper.sh up",
-    "on-scroll-down": "/home/first/.config/waybar/scripts/brightness-wrapper.sh down"
+    "on-scroll-down": "/home/first/.config/waybar/scripts/brightness-wrapper.sh down",
+    "signal": 14
   },
-
   "// ============================================================": "",
   "// Updates Monitor": "",
   "// Click: Run updates | Right-click: Check for updates | Middle: View changelog": "",
@@ -109,7 +106,6 @@
     "on-click-middle": "kitty -e sh -c 'pacman -Qe | less'",
     "signal": 8
   },
-
   "// ============================================================": "",
   "// Media Player (MPRIS) Controls - ENHANCED": "",
   "// Click: Play/Pause | Right-click: Next | Middle: Previous": "",
@@ -131,7 +127,6 @@
     "escape": true,
     "signal": 8
   },
-
   "// ============================================================": "",
   "// Weather": "",
   "// Click: Open wttr.in | Right-click: Refresh | Scroll: Toggle forecast": "",
@@ -147,7 +142,6 @@
     "on-scroll-down": "/home/first/.config/waybar/bin/weather-fetch compact",
     "signal": 9
   },
-
   "// ============================================================": "",
   "// Clipboard Manager": "",
   "// Click: Show History | Right-click: Clear | Middle: Pin current": "",
@@ -164,23 +158,21 @@
     "on-scroll-up": "/home/first/.config/waybar/bin/clipboard-mgr prev",
     "on-scroll-down": "/home/first/.config/waybar/bin/clipboard-mgr next"
   },
-
   "// ============================================================": "",
   "// Audio Visualizer - ENHANCED": "",
   "// Click: Change mode | Right-click: pavucontrol | Scroll: Adjust sensitivity": "",
   "custom/audio-viz": {
-    "exec": "/home/first/.config/waybar/bin/audio-viz spectrum",
+    "exec": "/home/first/.config/waybar/scripts/audio-viz-wrapper.sh",
     "return-type": "json",
-    "interval": 1,
+    "interval": 3600,
     "tooltip": true,
     "format": "{}",
     "on-click": "/home/first/.config/waybar/scripts/audio-viz-mode.sh cycle",
     "on-click-right": "kitty -e pulsemixer",
-    "on-click-middle": "/home/first/.config/waybar/bin/audio-viz bars",
     "on-scroll-up": "/home/first/.config/waybar/scripts/audio-viz-mode.sh sensitivity-up",
-    "on-scroll-down": "/home/first/.config/waybar/scripts/audio-viz-mode.sh sensitivity-down"
+    "on-scroll-down": "/home/first/.config/waybar/scripts/audio-viz-mode.sh sensitivity-down",
+    "signal": 10
   },
-
   "// ============================================================": "",
   "// Per-App Volume Mixer - ENHANCED": "",
   "// Click: pulsemixer | Right-click: List apps | Scroll: Adjust focused app volume": "",

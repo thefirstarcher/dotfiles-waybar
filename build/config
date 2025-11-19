@@ -20,17 +20,13 @@
   ],
   "// Right: System monitoring and controls": "",
   "modules-right": [
-    "custom/theme-switcher",
-    "custom/system",
-    "custom/gpu",
-    "custom/network",
-    "custom/hardware",
-    "custom/brightness",
-    "custom/clipboard",
-    "custom/updates",
+    "custom/separator",
+    "group/system",
     "custom/audio-viz",
-    "custom/app-volume",
-    "pulseaudio",
+    "group/audio",
+    "group/connectivity",
+    "group/utilities",
+    "custom/brightness",
     "battery",
     "tray"
   ],
@@ -125,6 +121,57 @@
     "icon-size": 18,
     "spacing": 10,
     "show-passive-items": true
+  },
+  "// Module Groups with Drawer": "",
+  "group/system": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/system",
+      "custom/gpu"
+    ]
+  },
+  "group/audio": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "pulseaudio",
+      "custom/app-volume"
+    ]
+  },
+  "group/connectivity": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/network",
+      "custom/hardware"
+    ]
+  },
+  "group/utilities": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/theme-switcher",
+      "custom/clipboard",
+      "custom/updates"
+    ]
+  },
+  "// Separator": "",
+  "custom/separator": {
+    "format": "|",
+    "tooltip": false
   },
   "// ALL WAYBAR CUSTOM MODULES - ENHANCED & CONSOLIDATED": "",
   "// Rich interactions + TUI programs + Proper theming": "",

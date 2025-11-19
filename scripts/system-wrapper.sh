@@ -37,11 +37,13 @@ cycle_view() {
 case "${1:-}" in
     "cycle-up")
         cycle_view
-        exec "$0"
+        pkill -RTMIN+11 waybar 2>/dev/null
+        exit 0
         ;;
     "cycle-down")
         cycle_view
-        exec "$0"
+        pkill -RTMIN+11 waybar 2>/dev/null
+        exit 0
         ;;
 esac
 

@@ -1,1 +1,351 @@
-build/config
+{
+  "// Configuration": "Enhanced Waybar Configuration with Theming Support",
+  "// ============================================================": "",
+  "// Layout Configuration": "",
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "spacing": 4,
+  "// Module Layout": "",
+  "// Left: Window management and media controls": "",
+  "modules-left": [
+    "sway/workspaces",
+    "sway/mode",
+    "custom/mpris"
+  ],
+  "// Center: Time and weather": "",
+  "modules-center": [
+    "clock",
+    "custom/weather"
+  ],
+  "// Right: System monitoring and controls": "",
+  "modules-right": [
+    "custom/separator",
+    "group/system",
+    "custom/audio-viz",
+    "group/audio",
+    "group/connectivity",
+    "group/utilities",
+    "custom/brightness",
+    "battery",
+    "tray"
+  ],
+  "// Sway Workspace Configuration": "",
+  "sway/workspaces": {
+    "disable-scroll": false,
+    "all-outputs": true,
+    "format": "{value}",
+    "format-icons": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "urgent": "",
+      "focused": "",
+      "default": ""
+    }
+  },
+  "sway/mode": {
+    "format": "<span style=\"italic\"> {}</span>",
+    "tooltip": false
+  },
+  "// Clock & Weather": "",
+  "clock": {
+    "interval": 60,
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format": " {:%H:%M}",
+    "format-alt": " {:%A, %B %d, %Y}",
+    "on-click-right": "gnome-calendar"
+  },
+  "// Network Configuration": "",
+  "network": {
+    "interval": 5,
+    "format-wifi": " {essid} ({signalStrength}%)",
+    "format-ethernet": " {ipaddr}/{cidr}",
+    "format-linked": " {ifname} (No IP)",
+    "format-disconnected": "⚠ Disconnected",
+    "tooltip-format": "{ifname} via {gwaddr}\n{ipaddr}/{cidr}\nSignal: {signalStrength}%\nFrequency: {frequency}MHz",
+    "tooltip-format-disconnected": "Disconnected",
+    "on-click": "nm-connection-editor"
+  },
+  "// Audio Configuration": "",
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": " Muted",
+    "format-bluetooth": " {icon} {volume}%",
+    "format-bluetooth-muted": "  Muted",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
+    "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "tooltip-format": "{desc}\nVolume: {volume}%"
+  },
+  "// Battery Configuration": "",
+  "battery": {
+    "interval": 30,
+    "states": {
+      "good": 80,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-full": " {capacity}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "tooltip-format": "{timeTo}\nCapacity: {capacity}%\nPower: {power}W"
+  },
+  "// System Tray": "",
+  "tray": {
+    "icon-size": 18,
+    "spacing": 10,
+    "show-passive-items": true
+  },
+  "// Module Groups with Drawer": "",
+  "group/system": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/system",
+      "custom/gpu"
+    ]
+  },
+  "group/audio": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "pulseaudio",
+      "custom/app-volume"
+    ]
+  },
+  "group/connectivity": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/network",
+      "custom/hardware"
+    ]
+  },
+  "group/utilities": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/theme-switcher",
+      "custom/clipboard",
+      "custom/updates"
+    ]
+  },
+  "// Separator": "",
+  "custom/separator": {
+    "format": "|",
+    "tooltip": false
+  },
+  "// ALL WAYBAR CUSTOM MODULES - ENHANCED & CONSOLIDATED": "",
+  "// Rich interactions + TUI programs + Proper theming": "",
+  "// Theme Switcher": "",
+  "// Click: Cycle themes | Right-click: Open theme menu | Scroll: Quick cycle": "",
+  "custom/theme-switcher": {
+    "exec": "/home/first/.config/waybar/bin/theme-switcher status",
+    "return-type": "json",
+    "interval": 30,
+    "tooltip": true,
+    "format": "{}",
+    "on-click": "/home/first/.config/waybar/bin/theme-switcher cycle",
+    "on-click-right": "/home/first/.config/waybar/bin/theme-switcher menu",
+    "on-scroll-up": "/home/first/.config/waybar/bin/theme-switcher next",
+    "on-scroll-down": "/home/first/.config/waybar/bin/theme-switcher prev"
+  },
+  "// MERGED: System Monitor (CPU + RAM + Thermal + Disk + Processes)": "",
+  "// Shows: CPU%, Memory, Disk% + Temps, Top processes": "",
+  "// Click: htop | Right-click: btop | Scroll: Change view mode": "",
+  "custom/system": {
+    "exec": "/home/first/.config/waybar/scripts/system-wrapper.sh",
+    "return-type": "json",
+    "interval": 2,
+    "tooltip": true,
+    "format": "{}",
+    "on-click": "kitty -e htop",
+    "on-click-right": "kitty -e btop",
+    "on-click-middle": "kitty -e nvtop",
+    "on-scroll-up": "/home/first/.config/waybar/scripts/system-wrapper.sh cycle-up",
+    "on-scroll-down": "/home/first/.config/waybar/scripts/system-wrapper.sh cycle-down",
+    "signal": 11
+  },
+  "// GPU Monitor": "",
+  "// Click: nvtop | Right-click: Toggle GPU stats | Scroll: Cycle display modes": "",
+  "custom/gpu": {
+    "exec": "/home/first/.config/waybar/bin/gpu-monitor",
+    "return-type": "json",
+    "interval": 2,
+    "tooltip": true,
+    "format": "{}",
+    "on-click": "kitty -e nvtop",
+    "on-click-right": "kitty -e radeontop",
+    "on-scroll-up": "/home/first/.config/waybar/bin/gpu-monitor freq",
+    "on-scroll-down": "/home/first/.config/waybar/bin/gpu-monitor util"
+  },
+  "// MERGED: Network Monitor (Speed + Quality + VPN)": "",
+  "// Shows: Bandwidth + Latency + VPN status": "",
+  "// Click: nmtui | Right-click: Network stats | Scroll: Toggle compact/detailed": "",
+  "custom/network": {
+    "exec": "/home/first/.config/waybar/scripts/network-wrapper.sh",
+    "return-type": "json",
+    "interval": 2,
+    "tooltip": true,
+    "format": "{}",
+    "on-click": "kitty -e nmtui",
+    "on-click-right": "kitty -e bmon",
+    "on-click-middle": "kitty -e iftop",
+    "on-scroll-up": "/home/first/.config/waybar/scripts/network-wrapper.sh detailed",
+    "on-scroll-down": "/home/first/.config/waybar/scripts/network-wrapper.sh compact",
+    "signal": 12
+  },
+  "// MERGED: Hardware/Peripherals (Bluetooth + Privacy)": "",
+  "// Shows: Bluetooth devices + Privacy indicators (mic/cam/screen)": "",
+  "// Click: Toggle Bluetooth | Right-click: Bluetooth manager | Scroll: Quick toggle": "",
+  "custom/hardware": {
+    "exec": "/home/first/.config/waybar/scripts/hardware-wrapper.sh",
+    "return-type": "json",
+    "interval": 3,
+    "tooltip": true,
+    "format": "{}",
+    "on-click": "/home/first/.config/waybar/bin/bluetooth-mgr toggle",
+    "on-click-right": "kitty -e bluetoothctl",
+    "on-scroll-up": "/home/first/.config/waybar/bin/bluetooth-mgr on",
+    "on-scroll-down": "/home/first/.config/waybar/bin/bluetooth-mgr off",
+    "signal": 13
+  },
+  "// Brightness Control": "",
+  "// Scroll: Adjust brightness | Click: Open settings": "",
+  "custom/brightness": {
+    "exec": "/home/first/.config/waybar/scripts/brightness-wrapper.sh",
+    "return-type": "json",
+    "interval": 2,
+    "tooltip": true,
+    "format": "{}",
+    "on-scroll-up": "/home/first/.config/waybar/scripts/brightness-wrapper.sh up",
+    "on-scroll-down": "/home/first/.config/waybar/scripts/brightness-wrapper.sh down",
+    "signal": 14
+  },
+  "// Updates Monitor": "",
+  "// Click: Run updates | Right-click: Check for updates | Middle: View changelog": "",
+  "custom/updates": {
+    "exec": "/home/first/.config/waybar/bin/updates-monitor",
+    "return-type": "json",
+    "interval": 3600,
+    "tooltip": true,
+    "format": "{}",
+    "on-click": "kitty -e sudo pacman -Syu",
+    "on-click-right": "kitty -e sh -c 'checkupdates && read -p \"Press enter to continue\"'",
+    "on-click-middle": "kitty -e sh -c 'pacman -Qe | less'",
+    "signal": 8
+  },
+  "// Media Player (MPRIS) Controls - ENHANCED": "",
+  "// Click: Play/Pause | Right-click: Next | Middle: Previous": "",
+  "// Scroll Up: Volume+ | Scroll Down: Volume-": "",
+  "// Shift+Scroll: Seek forward/backward in track": "",
+  "custom/mpris": {
+    "exec": "/home/first/.config/waybar/bin/mpris-control",
+    "return-type": "json",
+    "interval": 1,
+    "tooltip": true,
+    "format": "{}",
+    "max-length": 50,
+    "min-length": 0,
+    "on-click": "/home/first/.config/waybar/scripts/mpris-action.sh play-pause",
+    "on-click-middle": "/home/first/.config/waybar/scripts/mpris-action.sh prev",
+    "on-click-right": "/home/first/.config/waybar/scripts/mpris-action.sh next",
+    "on-scroll-up": "/home/first/.config/waybar/scripts/mpris-action.sh volume-up",
+    "on-scroll-down": "/home/first/.config/waybar/scripts/mpris-action.sh volume-down",
+    "escape": true,
+    "signal": 8
+  },
+  "// Weather": "",
+  "// Click: Open wttr.in | Right-click: Refresh | Scroll: Toggle forecast": "",
+  "custom/weather": {
+    "exec": "/home/first/.config/waybar/bin/weather-fetch",
+    "return-type": "json",
+    "interval": 1800,
+    "tooltip": true,
+    "format": "{}",
+    "on-click": "xdg-open https://wttr.in",
+    "on-click-right": "/home/first/.config/waybar/bin/weather-fetch refresh",
+    "on-scroll-up": "/home/first/.config/waybar/bin/weather-fetch detailed",
+    "on-scroll-down": "/home/first/.config/waybar/bin/weather-fetch compact",
+    "signal": 9
+  },
+  "// Clipboard Manager": "",
+  "// Click: Show History | Right-click: Clear | Middle: Pin current": "",
+  "// Scroll: Navigate history": "",
+  "custom/clipboard": {
+    "exec": "/home/first/.config/waybar/bin/clipboard-mgr status",
+    "return-type": "json",
+    "interval": 1,
+    "tooltip": true,
+    "format": "{}",
+    "on-click": "/home/first/.config/waybar/bin/clipboard-mgr show",
+    "on-click-right": "/home/first/.config/waybar/bin/clipboard-mgr clear",
+    "on-click-middle": "/home/first/.config/waybar/bin/clipboard-mgr pin",
+    "on-scroll-up": "/home/first/.config/waybar/bin/clipboard-mgr prev",
+    "on-scroll-down": "/home/first/.config/waybar/bin/clipboard-mgr next"
+  },
+  "// Audio Visualizer - ENHANCED": "",
+  "// Click: Change mode | Right-click: pavucontrol | Scroll: Adjust sensitivity": "",
+  "custom/audio-viz": {
+    "exec": "/home/first/.config/waybar/scripts/audio-viz-wrapper.sh",
+    "return-type": "json",
+    "interval": 3600,
+    "tooltip": true,
+    "format": "{}",
+    "on-click": "/home/first/.config/waybar/scripts/audio-viz-mode.sh cycle",
+    "on-click-right": "kitty -e pulsemixer",
+    "on-scroll-up": "/home/first/.config/waybar/scripts/audio-viz-mode.sh sensitivity-up",
+    "on-scroll-down": "/home/first/.config/waybar/scripts/audio-viz-mode.sh sensitivity-down",
+    "signal": 10
+  },
+  "// Per-App Volume Mixer - ENHANCED": "",
+  "// Click: pulsemixer | Right-click: List apps | Scroll: Adjust focused app volume": "",
+  "custom/app-volume": {
+    "exec": "/home/first/.config/waybar/bin/app-volume-mixer active",
+    "return-type": "json",
+    "interval": 2,
+    "tooltip": true,
+    "format": "{}",
+    "on-click": "kitty -e pulsemixer",
+    "on-click-right": "/home/first/.config/waybar/bin/app-volume-mixer list",
+    "on-click-middle": "/home/first/.config/waybar/bin/app-volume-mixer mute-focused",
+    "on-scroll-up": "/home/first/.config/waybar/bin/app-volume-mixer volume-up",
+    "on-scroll-down": "/home/first/.config/waybar/bin/app-volume-mixer volume-down"
+  }
+}

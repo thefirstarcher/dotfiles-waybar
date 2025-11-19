@@ -68,6 +68,57 @@ window#waybar {
 }
 
 /* ==========================================================
+   Module Groups with Drawer Animation
+   ========================================================== */
+.modules-right > widget > box > *:not(:last-child) {
+    margin-right: 2px;
+}
+
+.modules-right > widget > box > group {
+    padding: 0;
+    margin: 2px 2px;
+}
+
+/* Group container styling */
+.modules-right group > box {
+    background: alpha(@bg_alt, 0.8);
+    border-radius: 5px;
+    padding: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modules-right group:hover > box {
+    background: alpha(@bg_alt, 1.0);
+    box-shadow: 0 0 10px alpha(@accent, 0.35);
+}
+
+/* Group module items */
+.modules-right group > box > widget {
+    padding: 2px 8px;
+    margin: 0;
+    min-height: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modules-right group > box > widget:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.modules-right group > box > widget:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.modules-right group > box > widget:only-child {
+    border-radius: 5px;
+}
+
+/* Drawer children hover effects */
+.modules-right group > box > widget:not(:first-child):hover {
+    background: alpha(@accent, 0.15);
+    box-shadow: inset 0 0 8px alpha(@accent, 0.3);
+}
+
+/* ==========================================================
    Module Base Styles
    ========================================================== */
 #clock,
@@ -87,6 +138,7 @@ window#waybar {
 #custom-brightness,
 #custom-audio-viz,
 #custom-app-volume,
+#custom-separator,
 #mode {
     padding: 0 12px;
     background: @bg_alt;
@@ -94,6 +146,14 @@ window#waybar {
     border-radius: 6px;
     transition: all 0.3s ease;
     color: @fg;
+}
+
+/* Separator styling */
+#custom-separator {
+    background: transparent;
+    color: @fg_dark;
+    padding: 0 6px;
+    margin: 0;
 }
 
 #custom-system:hover,
@@ -586,4 +646,67 @@ window#waybar {
 
 #custom-net-quality-enhanced.bad {
     color: @critical;
+}
+
+/* ============================================
+   ENHANCED ANIMATIONS
+   ============================================ */
+
+@keyframes pulse {
+    0% { opacity: 1; box-shadow: 0 0 5px currentColor; }
+    50% { opacity: 0.8; box-shadow: 0 0 15px currentColor; }
+    100% { opacity: 1; box-shadow: 0 0 5px currentColor; }
+}
+
+@keyframes pulse-playing {
+    0% { box-shadow: 0 0 5px alpha(@magenta, 0.3); }
+    50% { box-shadow: 0 0 15px alpha(@magenta, 0.6); }
+    100% { box-shadow: 0 0 5px alpha(@magenta, 0.3); }
+}
+
+@keyframes slide-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fade-pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.5; }
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 5px currentColor; }
+    to { box-shadow: 0 0 15px currentColor, 0 0 25px currentColor; }
+}
+
+/* ============================================
+   HOVER EFFECTS FOR ALL MODULES
+   ============================================ */
+
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#disk:hover,
+#battery:hover,
+#network:hover,
+#bluetooth:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#custom-mpris:hover,
+#custom-weather:hover,
+#custom-brightness:hover {
+    background: alpha(@bg_alt, 1.0);
+    box-shadow: 0 0 10px alpha(@accent, 0.35);
+}
+
+/* MPRIS playing state */
+#custom-mpris.playing {
+    animation: pulse-playing 3s ease-in-out infinite;
+    border-left: 3px solid @magenta;
+}
+
+#custom-mpris.paused {
+    animation: fade-pulse 2s ease-in-out infinite;
+    font-style: italic;
 }

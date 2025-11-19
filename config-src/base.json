@@ -21,10 +21,9 @@
   ],
   "// Right: System monitoring and controls": "",
   "modules-right": [
-    "custom/mpris",
     "custom/separator",
-    "custom/weather",
     "group/system",
+    "custom/audio-viz",
     "group/audio",
     "group/connectivity",
     "group/utilities",
@@ -119,9 +118,7 @@
       "",
       ""
     ],
-    "tooltip-format": "{timeTo}\nCapacity: {capacity}%\nPower: {power}W",
-    "on-scroll-up": "",
-    "on-scroll-down": ""
+    "tooltip-format": "{timeTo}\nCapacity: {capacity}%\nPower: {power}W"
   },
   "// ============================================================": "",
   "// System Tray": "",
@@ -151,7 +148,6 @@
     },
     "modules": [
       "pulseaudio",
-      "custom/audio-viz",
       "custom/app-volume"
     ]
   },

@@ -87,17 +87,102 @@ tasks:
       - "{{.BUILD_DIR}}/style.css"
 
   install:
-    desc: Install all built files to ~/.config/waybar
+    desc: Build and deploy everything to ~/.config/waybar
     cmds:
       - task: default
-      - echo "Installing to {{.INSTALL_DIR}}..."
-      - ./deploy.sh
-      - echo "✓ Installation complete"
+      - task: deploy
 
   deploy:
-    desc: Deploy built files (alias for install)
+    desc: Deploy built files to ~/.config/waybar and reload Waybar
     cmds:
-      - task: install
+      - task: verify-build
+      - task: backup-configs
+      - task: copy-configs
+      - task: reload-waybar
+      - task: show-status
+
+  verify-build:
+    desc: Verify build artifacts exist
+    internal: true
+    cmds:
+      - |
+        echo "📦 Verifying build artifacts..."
+        if [ ! -f {{.BUILD_DIR}}/config ]; then
+          echo "❌ Error: Build artifacts not found. Run 'task default' first."
+          exit 1
+        fi
+        # Count binaries
+        BINS_FOUND=$(ls {{.TARGET_DIR}}/*-monitor {{.TARGET_DIR}}/netspeed {{.TARGET_DIR}}/theme-switcher {{.TARGET_DIR}}/*-mgr {{.TARGET_DIR}}/*-quality {{.TARGET_DIR}}/*-fetch {{.TARGET_DIR}}/*-viz 2>/dev/null | wc -l)
+        echo "✓ Found build artifacts ($BINS_FOUND binaries ready)"
+
+  backup-configs:
+    desc: Backup existing config and styles
+    internal: true
+    cmds:
+      - |
+        echo "💾 Backing up existing files..."
+        mkdir -p {{.INSTALL_DIR}}
+        TIMESTAMP=$(date +%s)
+        # Backup config if it exists and is not a symlink
+        if [ -f {{.INSTALL_DIR}}/config ] && [ ! -L {{.INSTALL_DIR}}/config ]; then
+          cp {{.INSTALL_DIR}}/config {{.INSTALL_DIR}}/config.backup-$TIMESTAMP
+          echo "  ✓ Backed up config"
+        fi
+        # Backup style.css if it exists and is not a symlink
+        if [ -f {{.INSTALL_DIR}}/style.css ] && [ ! -L {{.INSTALL_DIR}}/style.css ]; then
+          cp {{.INSTALL_DIR}}/style.css {{.INSTALL_DIR}}/style.css.backup-$TIMESTAMP
+          echo "  ✓ Backed up style.css"
+        fi
+
+  copy-configs:
+    desc: Copy config and styles to install directory
+    internal: true
+    cmds:
+      - |
+        echo "📋 Installing files..."
+        cp {{.BUILD_DIR}}/config {{.INSTALL_DIR}}/config
+        echo "  ✓ Config installed"
+        cp {{.BUILD_DIR}}/style.css {{.INSTALL_DIR}}/style.css
+        echo "  ✓ Styles installed"
+
+  reload-waybar:
+    desc: Restart or reload Waybar
+    internal: true
+    cmds:
+      - |
+        echo "🔄 Reloading Waybar..."
+        if pgrep -x waybar > /dev/null; then
+          # Try graceful reload first
+          if pkill -SIGUSR2 waybar 2>/dev/null; then
+            echo "  ✓ Waybar reloaded gracefully"
+          else
+            # Fallback to hard restart
+            killall waybar 2>/dev/null || true
+            sleep 0.5
+            waybar &>/dev/null &
+            disown 2>/dev/null || true
+            echo "  ✓ Waybar restarted"
+          fi
+        else
+          # Start Waybar if not running
+          waybar &>/dev/null &
+          disown 2>/dev/null || true
+          echo "  ✓ Waybar started"
+        fi
+
+  show-status:
+    desc: Show deployment status
+    internal: true
+    cmds:
+      - |
+        echo ""
+        echo "✅ Deployment complete!"
+        echo ""
+        echo "📍 Locations:"
+        echo "   Config:   {{.INSTALL_DIR}}/config"
+        echo "   Styles:   {{.INSTALL_DIR}}/style.css"
+        echo "   Binaries: {{.TARGET_DIR}}/"
+        echo ""
 
   clean:
     desc: Clean all build artifacts
